@@ -26,7 +26,7 @@ public class GetData extends Controller {
         // String html = doc.title();
         // play.Logger.info(html);
         org.jsoup.select.Elements elements = doc.select("img");
-        int i = 1+1-1;
+        int i = 1;
         String ImagAlt;
         for (org.jsoup.nodes.Element e : elements) {
             String name = String.valueOf(i) + ".jpg";
