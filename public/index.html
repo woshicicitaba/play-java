@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="/jquery-3.1.0.min.js"></script>
+    <script src="/vue.js"></script>
+</head>
+<body id="app">
+<p>Name:{{name}}</p>
+
+<p>{{message}}</p>
+
+<form method="post" action="/image" enctype="multipart/form-data">
+    <input type="file" name="img">
+    <input type="submit">
+</form>
+
+<input type="button" value="json" onclick="json()"/>
+
+<script>
+    //    var a();
+    //    a= $.get('/user');
+    //    new Vue({
+    //        el:"#app",
+    //        data:a
+    //    });
+    var data;
+    var app;
+    $(function () {
+        $.get('/user', function (res) {
+            data = JSON.parse(res);
+            app = new Vue({
+                el: '#app',
+                data: data
+            });
+        });
+    });
+
+    function json() {
+        $.ajax({
+            url: '/json',
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(data),
+            dataType: 'JSON',
+            type: 'post',
+            success: function (r) {
+//                JSON.parse(r);
+                app.name = r.name;
+            }
+        });
+//        $.post('/json', JSON.stringify(data), function (r) {
+//
+//        }, 'json')
+    }
+</script>
+</body>
+</html>

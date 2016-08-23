@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>>
+    <meta charset="UTF-8">
+    <script src="jquery-3.1.0.min.js"></script>
+    <script src="show.js"></script>
+    <script src="iscroll.js"></script>
+    <script type="text/javascript">
+
+        var myScroll;
+
+        function loaded() {
+            myScroll = new IScroll('#wrapper', {
+                eventPassthrough: true,
+                scrollX: true,
+                scrollY: false,
+                preventDefault: false
+            });
+        }
+
+    </script>
+    <title></title>
+    <style type="text/css">
+
+        #wrapper {
+            position: relative;
+            z-index: 1;
+            height: 160px;
+            width: 100%;
+            background: #ccc;
+            overflow: hidden;
+            -ms-touch-action: none;
+        }
+
+        #scroller {
+            position: absolute;
+            z-index: 1;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            width: 2400px;
+            height: 160px;
+        }
+
+        #scroller ul {
+            list-style: none;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        #scroller li {
+            width: 120px;
+            height: 160px;
+            float: left;
+            line-height: 160px;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            background-color: #fafafa;
+            font-size: 14px;
+            overflow: hidden;
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="padding: 70px 0 0 0" onload="loaded()">
+<!--顶部-->
+<nav class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container" style="color: #ffffff">
+        <div class="row">
+            <div class="col-xs-12">ssss</div>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <!--图片显示区域-->
+    <div class="row" style="border:1px solid red;height: 100px" id="row">
+
+    </div>
+    <!--底部滑动框-->
+    <div class="row" style="border:1px solid red;" id="wrapper">
+        <div id="scroller">
+            <ul>
+                <li>Pretty cell 1</li>
+                <li>Pretty cell 2</li>
+                <li>Pretty cell 3</li>
+                <li>Pretty cell 4</li>
+                <li>Pretty cell 5</li>
+                <li>Pretty cell 6</li>
+                <li>Pretty cell 7</li>
+                <li>Pretty cell 8</li>
+                <li>Pretty cell 9</li>
+                <li>Pretty cell 10</li>
+                <li>Pretty cell 11</li>
+                <li>Pretty cell 12</li>
+                <li>Pretty cell 13</li>
+                <li>Pretty cell 14</li>
+                <li>Pretty cell 15</li>
+                <li>Pretty cell 16</li>
+                <li>Pretty cell 17</li>
+                <li>Pretty cell 18</li>
+                <li>Pretty cell 19</li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
