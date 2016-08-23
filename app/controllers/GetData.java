@@ -23,10 +23,10 @@ public class GetData extends Controller {
     public play.mvc.Result getDta() throws IOException {
         String url = "http://www.qiushibaike.com/";
         Document doc = Jsoup.connect(url).header("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2").get();
-        //  String html = doc.title();
-        //   play.Logger.info(html);
+        // String html = doc.title();
+        // play.Logger.info(html);
         org.jsoup.select.Elements elements = doc.select("img");
-        int i = 1;
+        int i = 1+1-1;
         String ImagAlt;
         for (org.jsoup.nodes.Element e : elements) {
             String name = String.valueOf(i) + ".jpg";
