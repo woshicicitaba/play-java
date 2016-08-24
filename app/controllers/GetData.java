@@ -21,20 +21,23 @@ import java.util.logging.Logger;
  */
 public class GetData extends Controller {
     public play.mvc.Result getDta() throws IOException {
-        String url = "http://www.qiushibaike.com/";
-        Document doc = Jsoup.connect(url).header("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2").get();
-        // String html = doc.title();
-        // play.Logger.info(html);
-        org.jsoup.select.Elements elements = doc.select("img");
         int i = 1;
-        String ImagAlt;
-        for (org.jsoup.nodes.Element e : elements) {
-            String name = String.valueOf(i) + ".jpg";
-            downLoadFromUrl(e.attr("src"), name, "E:/im");
-            ImagAlt = String.valueOf(e.attr("src"));
-            play.Logger.info(String.valueOf(ImagAlt));
-            play.Logger.info(String.valueOf(i));
+        for (int j = 1; j <= 762; j++) {
+            String url = "http://www.qiushimm.com/page/" + i;
             i++;
+            Document doc = Jsoup.connect(url).header("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2").get();
+            // String html = doc.title();
+            // play.Logger.info(html);
+            org.jsoup.select.Elements elements = doc.select("img");
+
+            for (org.jsoup.nodes.Element e : elements) {
+                String ImagAlt = String.valueOf(e.attr("src"));
+                ImagAlt = ImagAlt.substring(ImagAlt.lastIndexOf("."));
+                ImagAlt=i+ImagAlt;
+                downLoadFromUrl(e.attr("src"), ImagAlt, "E:/im");
+                // play.Logger.info(String.valueOf(ImagAlt));
+                //play.Logger.info(String.valueOf(PicName));
+            }
         }
         return ok();
     }
