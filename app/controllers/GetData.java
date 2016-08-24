@@ -69,7 +69,7 @@ public class GetData extends Controller {
         if (inputStream != null) {
             inputStream.close();
         }
-        play.Logger.info("info:" + url + " download success");
+     //   play.Logger.info("info:" + url + " download success");
     }
 
     public static byte[] readInputStream(InputStream inputStream) throws IOException {
