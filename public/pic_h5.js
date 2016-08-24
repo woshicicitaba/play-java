@@ -54,3 +54,10 @@ function getDt() {
         console.info('end');
     })
 }
+
+
+function getWd() {
+    $.get('/getWord', function () {
+        console.info('end');
+    })
+}
