@@ -22,9 +22,11 @@ import java.util.logging.Logger;
 public class GetData extends Controller {
     public play.mvc.Result getDta() throws IOException {
         int i = 1;
-        for (int j = 1; j <= 762; j++) {
+        int PicName=1;
+        for (int j = 1; j <= 300; j++) {
             String url = "http://www.qiushimm.com/page/" + i;
             i++;
+            play.Logger.info(String.valueOf(i));
             Document doc = Jsoup.connect(url).header("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2").get();
             // String html = doc.title();
             // play.Logger.info(html);
@@ -33,8 +35,9 @@ public class GetData extends Controller {
             for (org.jsoup.nodes.Element e : elements) {
                 String ImagAlt = String.valueOf(e.attr("src"));
                 ImagAlt = ImagAlt.substring(ImagAlt.lastIndexOf("."));
-                ImagAlt=i+ImagAlt;
+                ImagAlt="A"+i+"B"+PicName+ImagAlt;
                 downLoadFromUrl(e.attr("src"), ImagAlt, "E:/im");
+                PicName++;
                 // play.Logger.info(String.valueOf(ImagAlt));
                 //play.Logger.info(String.valueOf(PicName));
             }
