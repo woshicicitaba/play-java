@@ -49,7 +49,8 @@ function tiaozhuan(id) {
 }
 
 function getDt() {
+    console.info('begin');
     $.get('/getData', function () {
-        console.info('sss');
+        console.info('end');
     })
 }
