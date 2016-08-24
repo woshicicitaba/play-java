@@ -15,6 +15,7 @@ POST        /showPic             controllers.PicController_h5.showPic
 POST        /json                controllers.UserController.json
 
 GET         /getData             controllers.GetData.getDta
+GET         /getWord             controllers.GetData.getWord
 
 # An example controller showing a sample home page
 GET         /*file               controllers.Assets.at(path="/public", file: String)
