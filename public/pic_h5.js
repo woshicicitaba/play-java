@@ -31,6 +31,7 @@ window.onscroll = function () {
 }
 
 function load() {
+    console.info(m);
     $.get('/getJson', function (res) {
             //console.info(res);
             r = $.parseJSON(res).data;
@@ -49,7 +50,6 @@ function tiaozhuan(id) {
 }
 
 function getDt() {
-    alert('begin');
     $.get('/getData', function () {
         console.info('end');
     })
