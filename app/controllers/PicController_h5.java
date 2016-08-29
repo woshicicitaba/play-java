@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.dataBase;
 import models.picData;
 import play.Logger;
 import play.libs.Json;
@@ -52,6 +53,18 @@ public class PicController_h5 extends Controller {
         Map<String, Object> map = new HashMap<>();
         map.put("data", pc);
         //map.put("data", "../2.pic");
+
+        try {
+            return ok(Json.mapper().writeValueAsString(map));
+        } catch (JsonProcessingException e) {
+            return badRequest();
+        }
+    }
+
+    public play.mvc.Result showWord() {
+        List<dataBase> db = dataBase.find.where().orderBy("id").setFirstRow(1).setMaxRows(20).findList();
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", db);
 
         try {
             return ok(Json.mapper().writeValueAsString(map));
