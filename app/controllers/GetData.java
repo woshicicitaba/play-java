@@ -99,8 +99,9 @@ public class GetData extends Controller {
 
             for (org.jsoup.nodes.Element e : elements1) {
 //                play.Logger.info(String.valueOf(e.select("div.content")));
+// 获取正文
                 String ppData = String.valueOf(e.select("div.content"));
-
+//跳过头像，抓取图片
                 org.jsoup.select.Elements elements2 = e.select("img");
                 String ppurl = null;
                 int ppi = 1;
@@ -111,11 +112,25 @@ public class GetData extends Controller {
                     ppi++;
                 }
 //                play.Logger.info(ppurl);
-                dataBase db = new dataBase();
-                db.setType("qs");
-                db.setArrt1(ppData);
-                db.setArrt2(ppurl);
-                db.insert();
+
+                if (ppurl!=null) {
+                    String ImagAlt = String.valueOf(e.attr("ppurl"));
+                    ImagAlt = ImagAlt.substring(ImagAlt.lastIndexOf("."));
+                    ImagAlt = "A" + i + "B" + ImagAlt;
+                    downLoadFromUrl(ppurl, ImagAlt, "E:/im");
+
+                    // 数据库插值
+                    dataBase db = new dataBase();
+                    db.setType("qs");
+                    db.setArrt1(ppData);
+                    db.setArrt2(ImagAlt);
+                    db.insert();
+                } else {
+                    dataBase db = new dataBase();
+                    db.setType("qs");
+                    db.setArrt1(ppData);
+                    db.insert();
+                }
             }
             i++;
         }
