@@ -7,7 +7,8 @@ var j = 1;//删除div的数量
 var r;//获取json的值
 
 function add(id, u, v) {
-    var nDiv = "<div class='col-xs-12' style='border:1px solid red;'" + "id=" + id + " onclick='tiaozhuan(" + id + ")'><img id='img1' src=" + u + " alt='bigai' class='img-responsive center-block img-rounded'> <div class=‘caption’><h3>" + v + "</h3> </div> </div>";
+
+    var nDiv = "<div onclick='tiaozhuan(" + id + ")'><img id="+id+" src=" + u + " style='width:500px'></div>";
     $("#row").append(nDiv);
     n++;
 }
@@ -23,12 +24,12 @@ function remove() {
     }
 }
 
-window.onscroll = function () {
-    if ($("#oBody").height() - $("#oBody").scrollTop() <= $(window).height()) {
-        load();
-    }
-    //remove();
-}
+//window.onscroll = function () {
+//    if ($("#oBody").height() - $("#oBody").scrollTop() <= $(window).height()) {
+//        load();
+//    }
+//    //remove();
+//}
 
 function load() {
     console.info(m);
@@ -40,7 +41,7 @@ function load() {
                 add(r[ii].id, r[ii].url, r[ii].value);
             }
             m++;
-            console.info(m);
+            //console.info(m);
         }
     )
 }
