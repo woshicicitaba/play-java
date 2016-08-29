@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-3.1.0.min.js"></script>
+    <style type="text/css">
+        .down {
+            z-index: 20;
+            height: 25px;
+            width: 200px;
+            border: 1px solid #666;
+            margin: 0 auto;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        .down:hover {
+            cursor: pointer;
+            background-color: #122b40;
+            color:#ffffff;
+        }
+
+        .word {
+            float: left;
+            margin: 10px 0;
+            width: 800px;
+            height: auto;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            padding: 10px;
+            line-height: 1.5;
+            letter-spacing: 1px;
+        }
+    </style>
+    <script>
+        function down() {
+            $("#first").css("display", "none");
+        }
+
+        function load() {
+            console.info("fucntion showNBPic();//展示一些NB的图片");
+            console.info("fucntion showNBmessage();//展示一些NB的段子");
+            console.info("以上方法均为JS方法，可以直接调用。调用后又惊喜~");
+
+            loaded();
+        }
+
+        function showNBPic() {
+            console.info("页面就要跳转了！！精彩图片立即展现");
+            console.info("3");
+
+            setTimeout(function () {
+                console.info("2");
+            }, 1000);
+            setTimeout(function () {
+                console.info("1");
+            }, 2000);
+            setTimeout(function () {
+                location.href = "pic_h5.html"
+            }, 3000);
+        }
+
+        function showNBmessage() {
+            console.info("页面跳转了！！精彩图片立即展现");
+        }
+
+        function loaded() {
+//            console.info(m);
+            $.get('/showWord', function (res) {
+//                        console.info(res);
+                        r = $.parseJSON(res).data;
+                        for (var ii = 0; ii < r.length; ii++) {
+//                             console.info(r[ii].arrt1);
+                            var ndiv = "<div class='word'>" + r[ii].arrt1 + "</div>";
+                            $("#connent").append(ndiv);
+                        }
+//                        m++;
+                        //console.info(m);
+                    }
+            )
+        }
+
+    </script>
+</head>
+<body style="margin: 0;font-family:微软雅黑;padding-top: 100px;" onload="load()">
+<div style="width: 100%;background-color: #122b40;color:#ffffff;height: 100px;border-bottom: 1px solid #ddd;position: fixed;top:0px;">
+    <div style="margin: 0 auto;height: 100%;width:1000px;padding: 25px 0 0 0;font-size:35px;letter-spacing:3px ">
+        程序猿<label style="font-size: 20px;padding-left: 20px;letter-spacing:1px">打开console，立享程序猿专属福利！</label>
+    </div>
+</div>
+
+<div style="width: 100%;height: 1000px;">
+    <div style="margin: 0 auto;height: 100px;width:1000px;padding: 25px 0 0 0;font-size:25px; " id="connent">
+    </div>
+</div>
+
+<div id="first"
+     style="position: fixed;top:100px;left: 0;bottom: 0;width: 100%;z-index: 10;background-image: url('1.png')">
+    <div style="z-index:20;margin: 50px auto;background-color: #ffffff;width: 325px;height: 500px;padding:10px 100px;">
+        <p>程序猿的hello World!</p>
+
+        <p>if(you.job==coding){</p>
+
+        <p style="text-indent: 2em">打开“console”;//按F12</p>
+
+        <p style="text-indent: 2em">find some 惊喜；</p>
+
+        <p>}</p>
+
+        <p>else{</p>
+
+        <p style="text-indent: 2em">嗯~~~//你是看不懂么？</p>
+
+        <p style="text-indent: 2em">愉快的查看网页吧；</p>
+
+        <p>}</p>
+
+        <div class="down" onclick="down()">down</div>
+    </div>
+</div>
+</body>
+</html>
