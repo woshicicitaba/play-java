@@ -24,7 +24,7 @@ public class GetData extends Controller {
     public play.mvc.Result getDta() throws IOException {
         int i = 1;
         int PicName = 1;
-        for (int j = 1; j <= 300; j++) {
+        for (int j = 1; j <= 5; j++) {
             String url = "http://www.qiushimm.com/page/" + i;
             i++;
             play.Logger.info(String.valueOf(i));
