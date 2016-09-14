@@ -12,6 +12,7 @@ GET         /returnPic           controllers.PicController.returnPic
 GET         /getJson             controllers.PicController_h5.returnPic
 POST        /showPic             controllers.PicController_h5.showPic
 GET         /showWord            controllers.PicController_h5.showWord
+POST        /get_New_Data        controllers.New_Controller.returnPic
 
 POST        /json                controllers.UserController.json
 
