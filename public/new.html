@@ -2,9 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+    <meta content="width=device-width, height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <title>new页面</title>
+    <script src="zepto.js"></script>
+    <script src="touch.js"></script>
+    <script>
+        var n = 9;
 
+        function up() {
+            n++;
+            up_pic();
+        }
+
+        function down() {
+            n--;
+            up_pic();
+        }
+
+        function up_pic() {
+            var url_base = "pic/" + n + ".jpg";
+            var url_pic = "url(" + url_base + ")";
+            $('#main').css('background-image', url_pic);
+        }
+    </script>
+</head>
+
+<body style="margin: 0;padding: 0;overflow: hidden">
+<div id="header"
+     style="position:absolute;left: 0;top: 0;bottom: 0;border:1px solid red;width: 100%;height: 100px;"></div>
+<div id="main"
+     style="position:absolute;left: 0;top: 100px;bottom: 0;border:1px solid gold;width: 100%;background-size: 100% auto;background-image: url('pic/1.jpg');background-repeat: no-repeat;background-position: center center;">
+
+</div>
+
+<script>
+    $('#main').swipeUp(function () {
+        up()
+    });
+
+    $('#main').swipeDown(function () {
+        down()
+    });
+</script>
 </body>
 </html>
