@@ -7,25 +7,7 @@
     <title>new页面</title>
     <script src="zepto.js"></script>
     <script src="touch.js"></script>
-    <script>
-        var n = 9;
-
-        function up() {
-            n++;
-            up_pic();
-        }
-
-        function down() {
-            n--;
-            up_pic();
-        }
-
-        function up_pic() {
-            var url_base = "pic/" + n + ".jpg";
-            var url_pic = "url(" + url_base + ")";
-            $('#main').css('background-image', url_pic);
-        }
-    </script>
+    <script src="new.js"></script>
 </head>
 
 <body style="margin: 0;padding: 0;overflow: hidden">
