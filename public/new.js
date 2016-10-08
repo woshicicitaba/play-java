@@ -14,7 +14,7 @@ function up() {
 }
 
 function down() {
-    id--;
+    id++;
     jsonData.id=id;
     jsonData.like=0;
     jsonData.dislike=1;
