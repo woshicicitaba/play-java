@@ -32,13 +32,26 @@ public class New_Controller extends Controller {
     }
 
     public play.mvc.Result returnPic() throws JsonProcessingException {
-        Map<String, String> getData=form.bindFromRequest().data();
-//        String id = getData.get("url");
+        Map<String, String> getData = form.bindFromRequest().data();
         Logger.debug(String.valueOf(getData));
+        String id = getData.get("id");
+        String like = getData.get("like");
+        String dislike = getData.get("dislike");
+        //       Logger.debug(String.valueOf(id));
 
-        List<picData> pc = picData.find.where().ilike("id", "1").findList();
-        for(picData p:pc){
-            p.setValue("aaas");
+        List<picData> pc = picData.find.where().ilike("id", id).findList();
+        for (picData p : pc) {
+//            p.setValue("aaas");
+            int old_dislike_num = Integer.parseInt(String.valueOf(p.getDis_like_num()));
+            int dislike_num = Integer.parseInt(String.valueOf(dislike));
+            int new_dislike_num=old_dislike_num+dislike_num;
+            p.setDis_like_num((long) new_dislike_num);
+
+            int old_like_num = Integer.parseInt(String.valueOf(p.getLike_num()));
+            int like_num = Integer.parseInt(String.valueOf(like));
+            int new_like_num=old_like_num+like_num;
+            p.setLike_num((long) new_like_num);
+
             p.update();
         }
 
