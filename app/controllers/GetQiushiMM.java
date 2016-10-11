@@ -23,8 +23,7 @@ import java.util.logging.Logger;
 public class GetQiushiMM extends Controller {
     public play.mvc.Result getDta() throws IOException {
         int PageNum = 1;
-        int PicName = 1;
-        for (int j = 1; j <= 1; j++) {
+        for (int j = 1; j <= 5; j++) {
             String url = "http://www.qiushimm.com/page/" + PageNum;
             PageNum++;
             play.Logger.info(String.valueOf(PageNum));
@@ -37,12 +36,12 @@ public class GetQiushiMM extends Controller {
                 String[] strarray=ImagAlt.split("/");
                 ImagAlt = strarray[strarray.length-1];
                 play.Logger.info(ImagAlt);
-
                 downLoadFromUrl(e.attr("src"), ImagAlt, "E:/im");
-                PicName++;
+
                 // play.Logger.info(String.valueOf(ImagAlt));
                 //play.Logger.info(String.valueOf(PicName));
             }
+            PageNum++;
         }
         return ok();
     }
