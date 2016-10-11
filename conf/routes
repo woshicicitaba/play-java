@@ -17,7 +17,7 @@ POST        /get_New_Data        controllers.New_Controller.returnPic
 POST        /json                controllers.UserController.json
 
 GET         /getData             controllers.GetQiushiMM.getDta
-GET         /getWord             controllers.GetBaisibudejie.getWord
+GET         /getWord             controllers.GetQiushibaike.getWord
 
 # An example controller showing a sample home page
 GET         /*file               controllers.Assets.at(path="/public", file: String)
