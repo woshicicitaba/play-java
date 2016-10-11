@@ -32,12 +32,18 @@ public class GetQiushibaike extends Controller {
                 org.jsoup.select.Elements elements3 = elements2.select("img");
                 String ppurl = elements3.attr("src");
 
+                String[] strarray=ppurl.split("/");
+                String pSrc = strarray[strarray.length-1];
+
+                play.Logger.info("data:"+ppData);
+                play.Logger.info("id:"+id);
+                play.Logger.info("url:"+pSrc);
+
                 if("Has_None"==judgeExist(id)){
                     if (ppurl != null) {
-                        String ImagAlt = id + ".jpg";
-                        downLoadFromUrl(ppurl, ImagAlt, "E:/im");
+                        downLoadFromUrl(ppurl, pSrc, "E:/im");
 
-                        insertPicNews(ppData,id,ImagAlt);
+                        insertPicNews(ppData,id,pSrc);
                     } else {
                         play.Logger.info("ppurl is null"+id);
                     }

@@ -18,11 +18,11 @@ import java.util.List;
  */
 public class GetBaisibudejie extends Controller {
 
-    public  play.mvc.Result test_w() {
-        WebDriver driver = new JBrowserDriver();
-        String url="http://www.budejie.com/pic";
-        driver.get(url);
-        String s = driver.getPageSource();
+//    public  play.mvc.Result test_w() {
+//        WebDriver driver = new JBrowserDriver();
+//        String url="http://www.budejie.com/pic";
+//        driver.get(url);
+//        String s = driver.getPageSource();
 //        Document document = Jsoup.parse(s);
 //        for (Element table : document.select(".newlist_list_content").select("table")) {
 //            StringBuilder builder = new StringBuilder();
@@ -30,9 +30,9 @@ public class GetBaisibudejie extends Controller {
 //            System.out.println(builder);
 //        }
 //        driver.close();
-        play.Logger.info(s);
-        return ok();
-    }
+//        play.Logger.info(s);
+//        return ok();
+//    }
 
     public play.mvc.Result getWord() throws IOException {
         int page_num = 1;//
@@ -49,25 +49,27 @@ public class GetBaisibudejie extends Controller {
                 String ppData = String.valueOf(e.select("div.j-r-list-c-desc").text());
                 org.jsoup.select.Elements elements2= e.getElementsByClass("j-r-list-c-img");
                 org.jsoup.select.Elements elements3 = elements2.select("img");
-                String ppurl = elements3.attr("data-original");
+                String id = elements3.attr("data-original");
 
-                play.Logger.info(ppData);
-                play.Logger.info(ppurl);
+                String[] strarray=id.split("/");
+                String ppurl = strarray[strarray.length-1];
 
+                play.Logger.info("data:"+ppData);
+                play.Logger.info("id:"+id);
+                play.Logger.info("url:"+ppurl);
 
-                if("Has_None"==judgeExist(ppurl)){
+                if("Has_None"==judgeExist(id)){
                     if (ppurl != null) {
-                        String ImagAlt = i+".jpg";
                         i++;
-                        downLoadFromUrl(ppurl, ImagAlt, "E:/im");
+                        downLoadFromUrl(id, ppurl, "E:/im");
 
-                        insertPicNews(ppData,ppurl,ImagAlt);
+                        insertPicNews(ppData, id,ppurl);
                     } else {
-                        play.Logger.info("ppurl is null"+ppurl);
+                        play.Logger.info("ppurl is null"+ ppurl);
                     }
                 }
                 else {
-                    play.Logger.info("已存在"+ppurl);
+                    play.Logger.info("已存在"+ ppurl);
                 }
             }
             page_num++;
