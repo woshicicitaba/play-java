@@ -1,6 +1,7 @@
 package controllers;
 
 import models.dataBase;
+import models.picData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import play.mvc.Controller;
@@ -8,16 +9,17 @@ import play.mvc.Controller;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by admin on 2016-10-8.
  */
-public class GetNewData extends Controller {
+public class GetQiushibaike extends Controller {
 
     public play.mvc.Result getWord() throws IOException {
-        int i = 1;
+        int page_num = 1;//
         for (int j = 1; j <= 1; j++) {
-            String url = "http://www.qiushibaike.com/imgrank/page/" + i + "/";
+            String url = "http://www.qiushibaike.com/imgrank/page/" + page_num + "/";
             Document doc = Jsoup.connect(url).header("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2").get();
             org.jsoup.select.Elements elements1 = doc.select("div.article");
 
@@ -26,33 +28,48 @@ public class GetNewData extends Controller {
             for (org.jsoup.nodes.Element e : elements1) {
                 String id = String.valueOf(e.id());
                 String ppData = String.valueOf(e.select("div.content").text());
-                org.jsoup.select.Elements elements3= e.getElementsByClass("thumb");
-                org.jsoup.select.Elements elements2 = elements3.select("img");
-                String ppurl = elements2.attr("src");
+                org.jsoup.select.Elements elements2= e.getElementsByClass("thumb");
+                org.jsoup.select.Elements elements3 = elements2.select("img");
+                String ppurl = elements3.attr("src");
 
-                if (ppurl != null) {
-                    String ImagAlt = String.valueOf(e.attr("ppurl"));
-//                    ImagAlt = ImagAlt.substring(ImagAlt.lastIndexOf("."));
-                    ImagAlt = id + ".jpg";
-                    downLoadFromUrl(ppurl, ImagAlt, "E:/im");
+                if("Has_None"==judgeExist(id)){
+                    if (ppurl != null) {
+                        String ImagAlt = id + ".jpg";
+                        downLoadFromUrl(ppurl, ImagAlt, "E:/im");
 
-                    dataBase db = new dataBase();
-                    db.setType("qs");
-                    db.setArrt1(ppData);
-                    db.setArrt2(ImagAlt);
-                    db.setArrt3(id);
-                    db.insert();
-                } else {
-                    dataBase db = new dataBase();
-                    db.setType("qs");
-                    db.setArrt1(ppData);
-                    db.setArrt3(id);
-                    db.insert();
+                        insertPicNews(ppData,id,ImagAlt);
+                    } else {
+                        play.Logger.info("ppurl is null"+id);
+                    }
+                }
+                else {
+                    play.Logger.info("存在"+id);
                 }
             }
-            i++;
+            page_num++;
         }
         return ok();
+    }
+
+    //数据库插值
+    public void insertPicNews(String Date,String Id,String Alt){
+        dataBase db = new dataBase();
+        db.setType("Qiushibaike");
+        db.setArrt1(Date);
+        db.setArrt2(Alt);
+        db.setArrt3(Id);
+        db.insert();
+    }
+
+    //判断是否已经存在
+    public String judgeExist(String Id){
+        List<dataBase> db = dataBase.find.where().ilike("arrt3", Id).findList();
+        if(db.isEmpty()){
+            return ("Has_None");
+        }
+        else{
+            return ("Has");
+        }
     }
 
     public static void downLoadFromUrl(String urlStr, String fileName, String savePath) throws IOException {
