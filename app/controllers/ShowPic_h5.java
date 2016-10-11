@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by admin on 2016/8/5.
  */
-public class PicController_h5 extends Controller {
+public class ShowPic_h5 extends Controller {
 
     public play.mvc.Result returnPic() {
         /*
