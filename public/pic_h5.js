@@ -62,3 +62,9 @@ function getWd() {
         console.info('end');
     })
 }
+
+function showPoc() {
+    $.get('/showPic_test', function () {
+        console.info('end');
+    })
+}

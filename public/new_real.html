@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <title>new页面</title>
+    <script src="zepto.js"></script>
+    <script src="touch.js"></script>
+    <script>
+        function up() {
+            $('#like').css('display', 'block');
+            setTimeout(function () {
+                $('#like').css('display', 'none');
+            }, 300);
+        }
+
+        function down() {
+            $('#dis_like').css('display', 'block');
+            setTimeout(function () {
+                $('#dis_like').css('display', 'none');
+            }, 300);
+        }
+
+        function show() {
+            if ($('#button_share').css('display') == 'none') {
+                $('#button_share').css('display','block');
+                $('#button_load').css('display','block');
+                $('#button_back').css('display','block');
+            }
+            else {
+                $('#button_share').css('display','none');
+                $('#button_load').css('display','none');
+                $('#button_back').css('display','none');
+            }
+        }
+    </script>
+</head>
+
+<body style="margin: 0;overflow: hidden;background-color:#c8c8c8;padding: 36px;">
+
+<div id="main"
+     style="clear:both;float:left;background-color:#ffffff;width: 100%;height:auto;-moz-border-radius:8px;-webkit-border-radius: 8px;border-radius:8px;">
+    <div style="margin: 41px;height:auto;">
+        <img src="pic/20.jpg" style="width: 100%;">
+
+        <p style="clear: both;float: left;font-family:'微软雅黑';color: #959595;font-size: 35.5px;">你喜欢不喜欢啊</p>
+    </div>
+</div>
+
+<div id="button_main" onclick="show()"
+     style="position: absolute;right: 20px;bottom: 20px;background-image: url('buttom_1.png');width: 145px;height: 145px;"></div>
+<div id="button_share"
+     style="position: absolute;right: 20px;bottom: 180px;background-image: url('button_2.png');width: 114px;height: 114px;display: none;"></div>
+<div id="button_load"
+     style="position: absolute;right: 140px;bottom: 140px;background-image: url('button_2.png');width: 114px;height: 114px;display: none;"></div>
+<div id="button_back"
+     style="position: absolute;right: 180px;bottom: 20px;background-image: url('button_2.png');width: 114px;height: 114px;display: none;"></div>
+
+<div id="like"
+     style="background-image: url('like.png');width: 180px;height: 180px;position: relative;top:500px;margin: 0 auto;display: none"></div>
+<div id="dis_like"
+     style="background-image: url('dislike.png');width: 180px;height: 180px;position: relative;top:500px;margin: 0 auto;display: none"></div>
+
+<script>
+    $('#main').swipeUp(function () {
+        up()
+    });
+
+    $('#main').swipeDown(function () {
+        down()
+    });
+
+    $('#main').swipeLeft(function () {
+        alert("左划");
+    });
+</script>
+
+</body>
+</html>
