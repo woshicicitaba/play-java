@@ -8,11 +8,31 @@
     <script src="zepto.js"></script>
     <script src="touch.js"></script>
     <script>
+        var id;
+        var jsonData = {};
+
+        function onload() {
+            $.post('/get_Load_Data', jsonData, function (res) {
+                // process response
+                var r = $.parseJSON(res);
+                var url = r.data[0].url;
+                var value = r.data[0].value;
+                id = r.data[0].id;
+                console.info(url + '++' + value + '++' + id);
+                update_news(url, value);
+            })
+        }
+
         function up() {
             $('#like').css('display', 'block');
             setTimeout(function () {
                 $('#like').css('display', 'none');
             }, 300);
+
+            jsonData.id = id;
+            jsonData.like = 1;
+            jsonData.dislike = 0;
+            get_data();
         }
 
         function down() {
@@ -20,31 +40,54 @@
             setTimeout(function () {
                 $('#dis_like').css('display', 'none');
             }, 300);
+
+            jsonData.id = id;
+            jsonData.like = 0;
+            jsonData.dislike = 1;
+            get_data();
+        }
+
+        function get_data() {
+            $.post('/get_New_Data', jsonData, function (res) {
+                // process response
+                var r = $.parseJSON(res);
+                var url = r.data[0].url;
+                var value = r.data[0].value;
+                id = r.data[0].id;
+                console.info(url + '++' + value + '++' + id);
+                update_news(url, value);
+            })
+        }
+
+        function update_news(url, value) {
+            $('#image').attr('src', url);
+            $('#word').html(value);
         }
 
         function show() {
             if ($('#button_share').css('display') == 'none') {
-                $('#button_share').css('display','block');
-                $('#button_load').css('display','block');
-                $('#button_back').css('display','block');
+                $('#button_share').css('display', 'block');
+                $('#button_load').css('display', 'block');
+                $('#button_back').css('display', 'block');
             }
             else {
-                $('#button_share').css('display','none');
-                $('#button_load').css('display','none');
-                $('#button_back').css('display','none');
+                $('#button_share').css('display', 'none');
+                $('#button_load').css('display', 'none');
+                $('#button_back').css('display', 'none');
             }
         }
     </script>
 </head>
 
-<body style="margin: 0;overflow: hidden;background-color:#c8c8c8;padding: 36px;">
+<body onload="onload()" style="padding: 0;margin: 0;border:0;">
+<div id="bd"  style="margin: 0;overflow: hidden;background-color:#c8c8c8;padding: 10px;position: absolute;top:0;bottom: 0;left:0;right: 0;">
+    <div id="main"
+         style="clear:both;float:left;background-color:#ffffff;width: 100%;height:auto;-moz-border-radius:8px;-webkit-border-radius: 8px;border-radius:8px;">
+        <div style="margin: 10px;height:auto;">
+            <img id="image" src="pic/21.jpg" style="width: 100%;">
 
-<div id="main"
-     style="clear:both;float:left;background-color:#ffffff;width: 100%;height:auto;-moz-border-radius:8px;-webkit-border-radius: 8px;border-radius:8px;">
-    <div style="margin: 41px;height:auto;">
-        <img src="pic/20.jpg" style="width: 100%;">
-
-        <p style="clear: both;float: left;font-family:'微软雅黑';color: #959595;font-size: 35.5px;">你喜欢不喜欢啊</p>
+            <p id="word" style="clear: both;float: left;font-family:'微软雅黑';color: #959595;font-size: 20px;">你喜欢不喜欢啊</p>
+        </div>
     </div>
 </div>
 
@@ -58,20 +101,20 @@
      style="position: absolute;right: 180px;bottom: 20px;background-image: url('button_2.png');width: 114px;height: 114px;display: none;"></div>
 
 <div id="like"
-     style="background-image: url('like.png');width: 180px;height: 180px;position: relative;top:500px;margin: 0 auto;display: none"></div>
+     style="background-image: url('like.png');width: 180px;height: 180px;position: relative;top:150px;margin: 0 auto;display: none"></div>
 <div id="dis_like"
-     style="background-image: url('dislike.png');width: 180px;height: 180px;position: relative;top:500px;margin: 0 auto;display: none"></div>
+     style="background-image: url('dislike.png');width: 180px;height: 180px;position: relative;top:150px;margin: 0 auto;display: none"></div>
 
 <script>
-    $('#main').swipeUp(function () {
+    $('#bd').swipeUp(function () {
         up()
     });
 
-    $('#main').swipeDown(function () {
+    $('#bd').swipeDown(function () {
         down()
     });
 
-    $('#main').swipeLeft(function () {
+    $('#bd').swipeLeft(function () {
         alert("左划");
     });
 </script>
