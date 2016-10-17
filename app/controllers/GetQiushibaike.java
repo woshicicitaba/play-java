@@ -59,12 +59,24 @@ public class GetQiushibaike extends Controller {
 
     //数据库插值
     public void insertPicNews(String Date,String Id,String Alt){
-        dataBase db = new dataBase();
-        db.setType("Qiushibaike");
-        db.setArrt1(Date);
-        db.setArrt2(Alt);
-        db.setArrt3(Id);
-        db.insert();
+//        dataBase db = new dataBase();
+//        db.setType("Qiushibaike");
+//        db.setArrt1(Date);
+//        db.setArrt2(Alt);
+//        db.setArrt3(Id);
+//        db.insert();
+
+        String new_alt="picc/"+Alt;
+
+        picData date_pic = new picData();
+        date_pic.setType_pic("Qiushibaike");
+        date_pic.setValue(Date);
+        date_pic.setUrl(new_alt);
+        date_pic.setSource_id(Id);
+        date_pic.setLike_num((long) 0);
+        date_pic.setLike_num((long) 0);
+        date_pic.insert();
+
     }
 
     //判断是否已经存在

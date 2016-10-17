@@ -11,6 +11,7 @@ import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
+import play.mvc.StatusHeader;
 import services.UserService;
 
 import java.io.File;
@@ -29,6 +30,18 @@ public class New_Controller extends Controller {
     @Inject
     public New_Controller(FormFactory formFactory) {
         form = formFactory.form();
+    }
+
+    public play.mvc.Result returnLoad() throws JsonProcessingException {
+        List<picData> pc = picData.find.setFirstRow(1).setMaxRows(1).orderBy("id desc").findList();
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", pc);
+
+        try {
+            return ok(Json.mapper().writeValueAsString(map));
+        } catch (JsonProcessingException e) {
+            return badRequest();
+        }
     }
 
     public play.mvc.Result returnPic() throws JsonProcessingException {
@@ -55,8 +68,10 @@ public class New_Controller extends Controller {
             p.update();
         }
 
+        int id_new = Integer.parseInt(id)-1;
+        List<picData> new_pc = picData.find.where().ilike("id", String.valueOf(id_new)).findList();
         Map<String, Object> map = new HashMap<>();
-        map.put("data", pc);
+        map.put("data", new_pc);
 
         try {
             return ok(Json.mapper().writeValueAsString(map));

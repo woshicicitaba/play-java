@@ -9,15 +9,17 @@ POST        /image               controllers.UserController.image
 POST        /pic                 controllers.PicController.getPic
 GET         /returnPic           controllers.PicController.returnPic
 
-GET         /getJson             controllers.PicController_h5.returnPic
-POST        /showPic             controllers.PicController_h5.showPic
-GET         /showWord            controllers.PicController_h5.showWord
+GET         /getJson             controllers.ShowPic_h5.returnPic
+POST        /showPic             controllers.ShowPic_h5.showPic
+GET         /showWord            controllers.ShowPic_h5.showWord
 POST        /get_New_Data        controllers.New_Controller.returnPic
+POST        /get_Load_Data        controllers.New_Controller.returnLoad
 
 POST        /json                controllers.UserController.json
 
 GET         /getData             controllers.GetQiushiMM.getDta
 GET         /getWord             controllers.GetQiushibaike.getWord
+GET         /showPic_test             controllers.ShowPic_all.returnPic
 
 # An example controller showing a sample home page
 GET         /*file               controllers.Assets.at(path="/public", file: String)

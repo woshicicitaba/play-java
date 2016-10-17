@@ -19,6 +19,8 @@ public class picData extends Model {
     private String value;
     private Long like_num;
     private Long dis_like_num;
+    private String type_pic;
+    private String source_id;
 
 
     public static Finder<Long, picData> find = new Finder<>(picData.class);
@@ -67,5 +69,22 @@ public class picData extends Model {
 
     public void setDis_like_num(Long dis_like_num) {
         this.dis_like_num = dis_like_num;
+    }
+
+    @Column(name = "type_pic")
+    public String getType_pic() {
+        return type_pic;
+    }
+
+    public void setType_pic(String type_pic) {
+        this.type_pic = type_pic;
+    }
+    @Column(name = "source_id")
+    public String getSource_id() {
+        return source_id;
+    }
+
+    public void setSource_id(String source_id) {
+        this.source_id = source_id;
     }
 }
