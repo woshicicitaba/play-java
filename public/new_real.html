@@ -77,10 +77,16 @@
             }
         }
     </script>
+    <script type='text/javascript'>
+        document.ontouchstart = function (e) {
+            e.preventDefault();
+        }
+    </script>
 </head>
 
 <body onload="onload()" style="padding: 0;margin: 0;border:0;">
-<div id="bd"  style="margin: 0;overflow: hidden;background-color:#c8c8c8;padding: 10px;position: absolute;top:0;bottom: 0;left:0;right: 0;">
+<div id="bd"
+     style="margin: 0;overflow: hidden;background-color:#c8c8c8;padding: 10px;position: absolute;top:0;bottom: 0;left:0;right: 0;">
     <div id="main"
          style="clear:both;float:left;background-color:#ffffff;width: 100%;height:auto;-moz-border-radius:8px;-webkit-border-radius: 8px;border-radius:8px;">
         <div style="margin: 10px;height:auto;">
@@ -92,18 +98,18 @@
 </div>
 
 <div id="button_main" onclick="show()"
-     style="position: absolute;right: 20px;bottom: 20px;background-image: url('buttom_1.png');width: 145px;height: 145px;"></div>
+     style="position: absolute;right: 20px;bottom: 20px;background-image: url('buttom_1.png');width: 45px;height: 45px;"></div>
 <div id="button_share"
-     style="position: absolute;right: 20px;bottom: 180px;background-image: url('button_2.png');width: 114px;height: 114px;display: none;"></div>
+     style="position: absolute;right: 20px;bottom: 180px;background-image: url('button_2.png');width: 40px;height: 40px;display: none;"></div>
 <div id="button_load"
-     style="position: absolute;right: 140px;bottom: 140px;background-image: url('button_2.png');width: 114px;height: 114px;display: none;"></div>
+     style="position: absolute;right: 140px;bottom: 140px;background-image: url('button_2.png');width: 40px;height: 40px;display: none;"></div>
 <div id="button_back"
-     style="position: absolute;right: 180px;bottom: 20px;background-image: url('button_2.png');width: 114px;height: 114px;display: none;"></div>
+     style="position: absolute;right: 180px;bottom: 20px;background-image: url('button_2.png');width: 40px;height: 40px;display: none;"></div>
 
 <div id="like"
-     style="background-image: url('like.png');width: 180px;height: 180px;position: relative;top:150px;margin: 0 auto;display: none"></div>
+     style="background-image: url('like.png');width: 45px;height: 45px;position: relative;top:150px;margin: 0 auto;display: none"></div>
 <div id="dis_like"
-     style="background-image: url('dislike.png');width: 180px;height: 180px;position: relative;top:150px;margin: 0 auto;display: none"></div>
+     style="background-image: url('dislike.png');width: 45px;height: 45px;position: relative;top:150px;margin: 0 auto;display: none"></div>
 
 <script>
     $('#bd').swipeUp(function () {
@@ -115,7 +121,7 @@
     });
 
     $('#bd').swipeLeft(function () {
-        alert("左划");
+//        alert("左划");
     });
 </script>
 
