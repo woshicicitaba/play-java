@@ -46,7 +46,7 @@ public class New_Controller extends Controller {
 
     public play.mvc.Result returnPic() throws JsonProcessingException {
         Map<String, String> getData = form.bindFromRequest().data();
-        Logger.debug(String.valueOf(getData));
+//        Logger.debug(String.valueOf(getData));
         String id = getData.get("id");
         String like = getData.get("like");
         String dislike = getData.get("dislike");
