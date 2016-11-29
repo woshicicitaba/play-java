@@ -213,7 +213,7 @@
 
         </div>
     </div>
-    <div id="pic_area" class="pic_area">
+    <div id="pic_area" class="pic_area" onclick="left()">
         <!--<div id="pic_1" class="pic_1">-->
         <!--<img src=" ./pic/10.jpg" style="width: 100%;float: left;"/>-->
 
@@ -234,11 +234,6 @@
     // show delete buttons on swipe
     $('#pic_area').swipeLeft(function () {
         left();
-    });
-
-    // delete row on tapping delete button
-    $('#pic_area').swipeRight(function () {
-        right();
     });
 </script>
 </body>
