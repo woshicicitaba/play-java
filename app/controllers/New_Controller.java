@@ -33,7 +33,7 @@ public class New_Controller extends Controller {
     }
 
     public play.mvc.Result returnLoad() throws JsonProcessingException {
-        List<picData> pc = picData.find.setFirstRow(1).setMaxRows(1).orderBy("id desc").findList();
+        List<picData> pc = picData.find.setFirstRow(1).setMaxRows(3).orderBy("id desc").findList();
         Map<String, Object> map = new HashMap<>();
         map.put("data", pc);
 
