@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <title></title>
+    <script src="z.js"></script>
+    <script src="z-fx.js"></script>
+    <script src="touch.js"></script>
+
+    <style type="text/css">
+        .pic_area {
+            position: absolute;
+            top: 50px;
+            height: 500px;
+            width: 300px;
+            overflow-x: hidden;
+        }
+
+        .pic_0 {
+            overflow: hidden;
+            border: 5px solid white;
+            margin: 0 auto;
+            border-radius: 7px;
+            box-shadow: 2px 2px 2px 2px #c9c9c9;
+            width: 290px;
+            height: 10px;
+            position: absolute;
+            left: 0;
+            top: 10px;
+        }
+
+        .pic_1 {
+            overflow: hidden;
+            border: 5px solid white;
+            margin: 0 auto;
+            border-radius: 7px;
+            box-shadow: 2px 2px 2px 2px #c9c9c9;
+            width: 290px;
+            height: auto;
+            position: absolute;
+            left: 0;
+            top: 10px;
+        }
+
+        .describe {
+            float: left;
+            width: 290px;
+            word-wrap: break-word;
+            font-size: small;
+            font-family: '微软雅黑';
+            padding: 2px 5px;
+            color: #999999;
+            border-radius: 0 0 7px 7px;
+        }
+
+        .part_main {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: #eeeeee;
+        }
+
+    </style>
+    <script language="javascript">
+        document.ontouchstart = function (e) {
+            //          e.preventDefault();
+            console.info(e.target);
+        }
+    </script>
+    <script language="javascript">
+        var id = 1;
+        var id_remove = 1;
+        var r;
+        var jsonData = {};
+
+        function add() {
+
+            var p_id = id;
+            jsonData.id = id;
+            jsonData.like = 1;
+            jsonData.dislike = 1;
+            $.post('/get_New_Data', jsonData, function (res) {
+                // process response
+                r = $.parseJSON(res);
+                $("#pic_area").prepend("<div id=" + p_id + " class='pic_0'><img src=" + r.data[0].url + " style='width: 100%'/><div class='describe'>" + r.data[0].value + "</div></div>");
+                move();
+            })
+//            console.info(p_id);
+//            console.info(r.data[0].url);
+            id++;
+        }
+
+        function set_data(url1, url2, url3, value1, value2, value3) {
+            $("#pic_area").prepend("<div id=" + id + " class='pic_1'><img src=" + url1 + " style='width: 100%'/><div class='describe'>" + value1 + "</div></div>");
+            id++;
+            $("#pic_area").prepend("<div id=" + id + " class='pic_0'><img src=" + url2 + " style='width: 100%'/><div class='describe'>" + value2 + "</div></div>");
+            id++;
+            $("#pic_area").prepend("<div id=" + id + " class='pic_0'><img src=" + url3 + " style='width: 100%'/><div class='describe'>" + value3 + "</div></div>");
+            id++;
+        }
+
+        function move() {
+
+            var r=60;
+            var x=50;
+            var y=50;
+            var p_x_y='rotate3d(1,0,0,'+r+'deg)'+' '+'translate('+x+'px,'+y+'px)';
+
+            $("#" + (id_remove)).animate({
+                opacity: "0",
+                transform: p_x_y
+            });
+            $("#" + (id_remove + 1)).removeClass("pic_0");
+            $("#" + (id_remove + 1)).addClass("pic_1");
+
+            console.info("id_remove=" + id_remove);
+            id_remove++;
+        }
+
+        function get_data() {
+            set_window();
+            $.post('/get_Load_Data', jsonData, function (res) {
+                // process response
+                r = $.parseJSON(res);
+                set_data(r.data[0].url, r.data[1].url, r.data[2].url, r.data[0].value, r.data[1].value, r.data[2].value);
+//                var url = r.data[0].url;
+//                console.info(url);
+            })
+        }
+
+        function set_window() {
+            var clientWidth = document.documentElement.clientWidth;
+            var clientHeight = document.documentElement.clientHeight;
+            var left = ((clientWidth - 300) / 2) + "px";
+            $("#pic_area").css("left", left);
+            var height = (clientHeight - 52) + "px";
+            $("#pic_area").css("height", height);
+            $("#part_main").css("height", clientHeight);
+        }
+
+        function show_list() {
+            $("#part_main").animate({left: "45px", transform: "rotate(10deg)"});
+        }
+
+        function close_list() {
+            $("#part_main").animate({left: "0", transform: "rotate(0)"});
+        }
+
+    </script>
+</head>
+<body id="body" style="background-color: #eeeeee;" onload="get_data()">
+
+<div onclick="close_list()" id="part_choice"
+     style="width:100%;position: absolute;left: 0;top:0;background-color: #555555;height: 500px;">
+    <div style="float: left;clear: both;width: 30px;height: 30px;background-color: #fffebd;margin: 10px 0 0 10px;"></div>
+    <div style="float: left;clear: both;width: 30px;height: 30px;background-color: #fffebd;margin: 10px 0 0 10px;"></div>
+    <div style="float: left;clear: both;width: 30px;height: 30px;background-color: #fffebd;margin: 10px 0 0 10px;"></div>
+
+</div>
+
+<div id="part_main" class="part_main">
+    <div style="width: 100%;height: 50px;position: absolute;left: 0;top:0;background-color: #555555;">
+        <p style="color: #d5d5d5;text-align: center;">hahahahaha</p>
+
+        <div onclick="show_list()"
+             style="float:left;width: 50px;height: 50px;position: relative;top:-63px;background-color: #f7f7f7;text-align: center; ">
+
+        </div>
+    </div>
+    <div id="pic_area" class="pic_area" onclick="add()">
+        <!--<div id="pic_1" class="pic_1">-->
+        <!--<img src=" ./pic/10.jpg" style="width: 100%;float: left;"/>-->
+
+        <!--<div style="float: left;width: 100%;"> ssssasdasdasdasd</div>-->
+        <!--</div>-->
+        <!--<div id="pic_2" class="pic_2">-->
+        <!--<img src="./pic/11.jpg" style="width: 100%"/>-->
+        <!--</div>-->
+        <!--<div id="pic_3" class="pic_3">-->
+        <!--<img src=" ./pic/10.jpg" style="width: 100%;float: left;"/>-->
+
+        <!--<p  class="describe"> ssssasdasdasdasdssssasdasdasdasdssssasdasdasdasdssssasdasdasdasd</p>-->
+        <!--</div>-->
+    </div>
+</div>
+</body>
+</html>
