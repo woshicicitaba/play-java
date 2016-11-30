@@ -28,28 +28,34 @@ public class GetQiushibaike extends Controller {
             for (org.jsoup.nodes.Element e : elements1) {
                 String id = String.valueOf(e.id());
                 String ppData = String.valueOf(e.select("div.content").text());
-                org.jsoup.select.Elements elements2= e.getElementsByClass("thumb");
+                org.jsoup.select.Elements elements2 = e.getElementsByClass("thumb");
                 org.jsoup.select.Elements elements3 = elements2.select("img");
                 String ppurl = elements3.attr("src");
 
-                String[] strarray=ppurl.split("/");
-                String pSrc = strarray[strarray.length-1];
+                org.jsoup.select.Elements elements4 = e.getElementsByClass("qiushi_comments");
+                String hrf = elements4.attr("data-share");
 
-                play.Logger.info("data:"+ppData);
-                play.Logger.info("id:"+id);
-                play.Logger.info("url:"+pSrc);
+//                play.Logger.info("elements4:" + elements4);
+//                play.Logger.info("hrf:" + hrf);
 
-                if("Has_None"==judgeExist(id)){
+                String[] strarray = ppurl.split("/");
+                String pSrc = strarray[strarray.length - 1];
+
+                play.Logger.info("data:" + ppData);
+                play.Logger.info("id:" + id);
+                play.Logger.info("url:" + pSrc);
+
+                if ("Has_None" == judgeExist(id)) {
                     if (ppurl != null) {
                         downLoadFromUrl(ppurl, pSrc, "E:/im");
 
-                        insertPicNews(ppData,id,pSrc);
+                        insertPicNews(ppData, id, pSrc);
+                        get_comment(hrf, id);
                     } else {
-                        play.Logger.info("ppurl is null"+id);
+                        play.Logger.info("ppurl is null" + id);
                     }
-                }
-                else {
-                    play.Logger.info("存在"+id);
+                } else {
+                    play.Logger.info("存在" + id);
                 }
             }
             page_num++;
@@ -58,7 +64,7 @@ public class GetQiushibaike extends Controller {
     }
 
     //数据库插值
-    public void insertPicNews(String Date,String Id,String Alt){
+    public void insertPicNews(String Date, String Id, String Alt) {
 //        dataBase db = new dataBase();
 //        db.setType("Qiushibaike");
 //        db.setArrt1(Date);
@@ -66,7 +72,7 @@ public class GetQiushibaike extends Controller {
 //        db.setArrt3(Id);
 //        db.insert();
 
-        String new_alt="picc/"+Alt;
+        String new_alt = "picc/" + Alt;
 
         picData date_pic = new picData();
         date_pic.setType_pic("Qiushibaike");
@@ -80,12 +86,11 @@ public class GetQiushibaike extends Controller {
     }
 
     //判断是否已经存在
-    public String judgeExist(String Id){
+    public String judgeExist(String Id) {
         List<dataBase> db = dataBase.find.where().ilike("arrt3", Id).findList();
-        if(db.isEmpty()){
+        if (db.isEmpty()) {
             return ("Has_None");
-        }
-        else{
+        } else {
             return ("Has");
         }
     }
@@ -124,5 +129,26 @@ public class GetQiushibaike extends Controller {
         }
         bos.close();
         return bos.toByteArray();
+    }
+
+    public void get_comment(String link, String id) throws IOException {
+        String real_id = id;
+        String real_link = "http://www.qiushibaike.com" + link;
+        Document doc = Jsoup.connect(real_link).header("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2").get();
+        org.jsoup.select.Elements elements1 = doc.select("div.replay");
+        //play.Logger.info("replay:" + elements1);
+
+        for (org.jsoup.nodes.Element e : elements1) {
+            String comment = String.valueOf(e.select("span.body").text());
+//            play.Logger.info("comment:" + comment);
+            picData date_pic = new picData();
+            date_pic.setType_pic("comment");
+            date_pic.setValue(comment);
+            date_pic.setUrl("comment");
+            date_pic.setSource_id(real_id);
+            date_pic.setLike_num((long) 0);
+            date_pic.setLike_num((long) 0);
+            date_pic.insert();
+        }
     }
 }
