@@ -16,6 +16,7 @@
             height: 500px;
             width: 300px;
             overflow-x: hidden;
+            border: 1px solid red;
         }
 
         .pic_0 {
@@ -104,17 +105,22 @@
 
         function move() {
 
-            var r=60;
-            var x=50;
-            var y=50;
-            var p_x_y='rotate3d(1,0,0,'+r+'deg)'+' '+'translate('+x+'px,'+y+'px)';
+            var r = Math.sin(Math.random()) * 60;
+            var x = Math.sin(Math.random()) * 50;
+            var y = Math.cos(Math.random()) * 50;
+            var p_x_y = 'rotate3d(1,0,0,' + r + 'deg)' + ' ' + 'translate(' + x + 'px,' + y + 'px)';
 
             $("#" + (id_remove)).animate({
                 opacity: "0",
                 transform: p_x_y
-            });
+            }, 500);
             $("#" + (id_remove + 1)).removeClass("pic_0");
             $("#" + (id_remove + 1)).addClass("pic_1");
+//            var height_pic = $(".pic_1 img")[0].height;
+//            var height_describe = $(".pic_1 .describe")[0].height;
+//            var height = height_pic + height_describe;
+            $("#pic_area").css("height", height);
+            $("#pic_area").scrollTop(0);
 
             console.info("id_remove=" + id_remove);
             id_remove++;
@@ -152,6 +158,7 @@
     </script>
 </head>
 <body id="body" style="background-color: #eeeeee;" onload="get_data()">
+<a id="top"></a>
 
 <div onclick="close_list()" id="part_choice"
      style="width:100%;position: absolute;left: 0;top:0;background-color: #555555;height: 500px;">
