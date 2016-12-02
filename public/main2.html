@@ -12,70 +12,64 @@
     <style type="text/css">
         .pic_area {
             position: absolute;
-            top: 70px;
-            height: 500px;
+            top: 60px;
+            height: auto;
             width: 300px;
             overflow-x: hidden;
+            border-radius: 7px;
+            /*box-shadow: 2px 2px 2px 2px #c9c9c9;*/
+            margin-top: 10px;
         }
 
-        .pic_0 {
+        .pic_left {
+            width: 150px;
             overflow: hidden;
-            border: 5px solid white;
-            margin: 0 auto;
-            border-radius: 7px;
-            box-shadow: 2px 2px 2px 2px #c9c9c9;
-            width: 290px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .pic_left_back {
+            width: 150px;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
             height: 10px;
-            transform: scaleX(0.85);
-            position: absolute;
-            left: 0;
-            top: 5px;
         }
 
-        .pic_1 {
+        .pic_left_pic {
+            width: 300px;
+            position: relative;
+            left: 0;
+            top: 0;
+        }
+
+        .pic_right {
+            width: 150px;
             overflow: hidden;
-            border: 5px solid white;
-            margin: 0 auto;
-            border-radius: 7px;
-            box-shadow: 2px 2px 2px 2px #c9c9c9;
-            width: 290px;
+            position: absolute;
+            top: 0;
+            left: 150px;
+        }
+
+        .pic_right_back {
+            width: 150px;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 150px;
             height: 10px;
-            transform: scaleX(0.9);
-            position: absolute;
-            left: 0;
-            top: 10px;
         }
 
-        .pic_2 {
-            overflow: hidden;
-            border: 5px solid white;
-            margin: 0 auto;
-            border-radius: 7px;
-            box-shadow: 2px 2px 2px 2px #c9c9c9;
-            width: 290px;
-            height: 10px;
-            transform: scaleX(0.95);
-            position: absolute;
-            left: 0;
-            top: 20px;
-        }
-
-        .pic_3 {
-            overflow: hidden;
-            border: 5px solid white;
-            margin: 0 auto;
-            border-radius: 7px;
-            box-shadow: 2px 2px 2px 2px #c9c9c9;
-            width: 290px;
-            height: auto;
-            transform: scaleX(1);
-            position: absolute;
-            left: 0;
-            top: 30px;
+        .pic_right_pic {
+            width: 300px;
+            position: relative;
+            left: -150px;
+            top: 0;
         }
 
         .describe {
-            float: left;
             width: 290px;
             word-wrap: break-word;
             font-size: small;
@@ -92,7 +86,6 @@
             top: 0;
             background-color: #eeeeee;
         }
-
         .close_list {
             width: 100%;
             position: absolute;
@@ -117,7 +110,6 @@
             line-height: 30px;
             text-decoration: none;
         }
-
         .part_main_header {
             width: 100%;
             height: 50px;
@@ -152,12 +144,13 @@
             line-height: 50px;
             font-size: 23px;
         }
+
     </style>
     <!--<script language="javascript">-->
-    <!--document.ontouchstart = function (e) {-->
-    <!--//          e.preventDefault();-->
-    <!--console.info(e.target);-->
-    <!--}-->
+        <!--document.ontouchstart = function (e) {-->
+            <!--//          e.preventDefault();-->
+            <!--console.info(e.target);-->
+        <!--}-->
     <!--</script>-->
     <script language="javascript">
         var id = 1;
@@ -167,6 +160,7 @@
 
         function add() {
 
+            console.info("id+add:" + id);
             var p_id = id;
             jsonData.id = id;
             jsonData.like = 1;
@@ -174,52 +168,42 @@
             $.post('/get_New_Data', jsonData, function (res) {
                 // process response
                 r = $.parseJSON(res);
-                $("#pic_area").prepend("<div id=" + p_id + " class='pic_0'><img src=" + r.data[0].url + " style='width: 100%'/><div class='describe'>" + r.data[0].value + "</div></div>");
+                var url = r.data[0].url;
+                console.info(url);
+                console.info("id1:" + id);
+                $("#pic_area").prepend("<div id=" + (id - 2) + " class='pic_left_back'><img src=" + url + " class='pic_left_pic'/></div><div id=" + (id - 1) + " class='pic_right_back'><img src=" + url + " class='pic_right_pic'/></div>");
                 move();
             })
 //            console.info(p_id);
 //            console.info(r.data[0].url);
-            id++;
+            console.info("id1-2:" + id);
+            id = id + 2;
+            console.info("id-edd:" + id);
         }
 
         function set_data(url1, url2, url3, value1, value2, value3) {
-            $("#pic_area").prepend("<div id=" + id + " class='pic_3'><img src=" + url1 + " style='width: 100%'/><div class='describe'>" + value1 + "</div></div>");
-            id++;
-            $("#pic_area").prepend("<div id=" + id + " class='pic_2'><img src=" + url2 + " style='width: 100%'/><div class='describe'>" + value2 + "</div></div>");
-            id++;
-            $("#pic_area").prepend("<div id=" + id + " class='pic_1'><img src=" + url3 + " style='width: 100%'/><div class='describe'>" + value3 + "</div></div>");
-            id++;
+            $("#pic_area").prepend("<div id=" + id + " class='pic_left'><img src=" + url1 + " class='pic_left_pic'/></div><div id=" + (id + 1) + " class='pic_right'><img src=" + url1 + " class='pic_right_pic'/></div>");
+            id = id + 2;
+            $("#pic_area").prepend("<div id=" + id + " class='pic_left_back'><img src=" + url2 + " class='pic_left_pic'/></div><div id=" + (id + 1) + " class='pic_right_back'><img src=" + url2 + " class='pic_right_pic'/></div>");
+            id = id + 2;
+            $("#pic_area").prepend("<div id=" + id + " class='pic_left_back'><img src=" + url3 + " class='pic_left_pic'/></div><div id=" + (id + 1) + " class='pic_right_back'><img src=" + url3 + " class='pic_right_pic'/></div>");
+            id = id + 2;
+            console.info(id);
         }
 
         function move() {
+            $("#" + id_remove).animate({left: "-150px", opacity: "0"});
+            $("#" + (id_remove + 1)).animate({left: "300px", opacity: "0"});
 
 
-            $("#" + (id_remove + 1)).animate({transform: "scaleX(1)", top: "30px"});
-            $("#" + (id_remove + 1)).removeClass("pic_2");
-            $("#" + (id_remove + 1)).addClass("pic_3");
+            $("#" + (id_remove + 2)).removeClass("pic_left_back");
+            $("#" + (id_remove + 2)).addClass("pic_left");
+            $("#" + (id_remove + 3)).removeClass("pic_right_back");
+            $("#" + (id_remove + 3)).addClass("pic_right");
 
-            $("#" + (id_remove + 2)).animate({transform: "scaleX(0.95)", top: "20px"});
-            $("#" + (id_remove + 2)).removeClass("pic_1");
-            $("#" + (id_remove + 2)).addClass("pic_2");
-
-            $("#" + (id_remove + 3)).animate({transform: "scaleX(0.9)", top: "10px"});
-            $("#" + (id_remove + 3)).removeClass("pic_0");
-            $("#" + (id_remove + 3)).addClass("pic_1");
-
-            console.info("id_remove=" + id_remove);
-            id_remove++;
-        }
-
-        function left() {
-            add();
-            $("#" + id_remove).animate({left: "-2000px", transform: "rotate(300deg) scaleX(0.5)"});
-//            setInterval("$('#' + (id_remove - 1)).hide();", 5000);
-        }
-
-        function right() {
-            add();
-            $("#" + id_remove).animate({left: "2000px", transform: "rotate(-300deg) scaleX(0.5)"});
-//            setInterval("$('#' + (id_remove - 1)).hide();", 5000);
+            $("#pic_area").scrollTop(0);
+//            console.info("id_remove=" + id_remove);
+            id_remove = id_remove + 2;
         }
 
         function get_data() {
@@ -238,7 +222,7 @@
             var clientHeight = document.documentElement.clientHeight;
             var left = ((clientWidth - 300) / 2) + "px";
             $("#pic_area").css("left", left);
-            var height = (clientHeight - 52) + "px";
+            var height = (clientHeight - 72) + "px";
             $("#pic_area").css("height", height);
             $("#part_main").css("height", clientHeight);
         }
@@ -253,7 +237,8 @@
 
     </script>
 </head>
-<body id="body" style="background-color: #eeeeee;" onload="get_data()">
+<body id="body" style="background-color: #eeeeee;" onload="get_data()"><!--get_data-->
+
 <div onclick="close_list()" id="part_choice" class="close_list">
     <div id="close_list" onclick="close_list()" class="link">
         >>
@@ -273,28 +258,18 @@
             <<
         </div>
     </div>
-    <div id="pic_area" class="pic_area" onclick="left()">
-        <!--<div id="pic_1" class="pic_1">-->
-        <!--<img src=" ./pic/10.jpg" style="width: 100%;float: left;"/>-->
+    <div id="pic_area" class="pic_area" onclick="add()"><!---->
 
-        <!--<div style="float: left;width: 100%;"> ssssasdasdasdasd</div>-->
+        <!--<div id="pic_left" class="pic_left">-->
+        <!--<img src="pic/1.jpg" class="pic_left_pic">-->
         <!--</div>-->
-        <!--<div id="pic_2" class="pic_2">-->
-        <!--<img src="./pic/11.jpg" style="width: 100%"/>-->
-        <!--</div>-->
-        <!--<div id="pic_3" class="pic_3">-->
-        <!--<img src=" ./pic/10.jpg" style="width: 100%;float: left;"/>-->
 
-        <!--<p  class="describe"> ssssasdasdasdasdssssasdasdasdasdssssasdasdasdasdssssasdasdasdasd</p>-->
+        <!--<div id="pic_right" class="pic_right">-->
+        <!--<img src="pic/1.jpg" class="pic_right_pic">-->
         <!--</div>-->
+
+        <!--</div>-->
+        <!--<p class="describe"> ssssasdasdasdasdssssasdasdasdasdssssasdasdasdasdssssasdasdasdasd</p>-->
     </div>
-</div>
-
-<script>
-    // show delete buttons on swipe
-    $('#pic_area').swipeLeft(function () {
-        left();
-    });
-</script>
 </body>
 </html>
