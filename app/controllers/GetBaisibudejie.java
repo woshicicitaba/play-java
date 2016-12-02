@@ -36,7 +36,7 @@ public class GetBaisibudejie extends Controller {
 
     public play.mvc.Result getWord() throws IOException {
         int page_num = 1;//
-        int i=1;
+        int i = 1;
         for (int j = 1; j <= 1; j++) {
             String url = "http://www.budejie.com/pic/" + page_num;
             play.Logger.info(String.valueOf(url));
@@ -47,29 +47,35 @@ public class GetBaisibudejie extends Controller {
             for (org.jsoup.nodes.Element e : elements1) {
 //                String id = String.valueOf(e.id());
                 String ppData = String.valueOf(e.select("div.j-r-list-c-desc").text());
-                org.jsoup.select.Elements elements2= e.getElementsByClass("j-r-list-c-img");
+                org.jsoup.select.Elements elements2 = e.getElementsByClass("j-r-list-c-img");
                 org.jsoup.select.Elements elements3 = elements2.select("img");
                 String id = elements3.attr("data-original");
 
-                String[] strarray=id.split("/");
-                String ppurl = strarray[strarray.length-1];
+                play.Logger.info("elements4:" + e);
+                org.jsoup.select.Elements elements4 = e.select("a.j-list-comment");
+//                Element links = elements4.select("a").first();
+//                String hrf = links.attr("href");//获取评论
+//                play.Logger.info("elements4:" + elements4);
+//                play.Logger.info("hrf:" + links);
 
-                play.Logger.info("data:"+ppData);
-                play.Logger.info("id:"+id);
-                play.Logger.info("url:"+ppurl);
+                String[] strarray = id.split("/");
+                String ppurl = strarray[strarray.length - 1];
 
-                if("Has_None"==judgeExist(id)){
+//                play.Logger.info("data:"+ppData);
+//                play.Logger.info("id:"+id);
+//                play.Logger.info("url:"+ppurl);
+
+                if ("Has_None" == judgeExist(id)) {
                     if (ppurl != null) {
                         i++;
                         downLoadFromUrl(id, ppurl, "E:/im");
 
-                        insertPicNews(ppData, id,ppurl);
+                        insertPicNews(ppData, id, ppurl);
                     } else {
-                        play.Logger.info("ppurl is null"+ ppurl);
+                        play.Logger.info("ppurl is null" + ppurl);
                     }
-                }
-                else {
-                    play.Logger.info("已存在"+ ppurl);
+                } else {
+                    play.Logger.info("已存在" + ppurl);
                 }
             }
             page_num++;
@@ -78,7 +84,7 @@ public class GetBaisibudejie extends Controller {
     }
 
     //数据库插值
-    public void insertPicNews(String Date,String Id,String Alt){
+    public void insertPicNews(String Date, String Id, String Alt) {
         dataBase db = new dataBase();
         db.setType("Baishibudejie");
         db.setArrt1(Date);
@@ -88,12 +94,11 @@ public class GetBaisibudejie extends Controller {
     }
 
     //判断是否存在
-    public String judgeExist(String Id){
+    public String judgeExist(String Id) {
         List<dataBase> db = dataBase.find.where().ilike("arrt3", Id).findList();
-        if(db.isEmpty()){
+        if (db.isEmpty()) {
             return ("Has_None");
-        }
-        else{
+        } else {
             return ("Has");
         }
     }
