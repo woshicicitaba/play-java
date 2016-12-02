@@ -2,32 +2,33 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET         /user                controllers.UserController.get
+GET         /user                 controllers.UserController.get
 
-POST        /image               controllers.UserController.image
+POST        /image                controllers.UserController.image
 
-POST        /pic                 controllers.PicController.getPic
-GET         /returnPic           controllers.PicController.returnPic
+POST        /pic                  controllers.PicController.getPic
+GET         /returnPic            controllers.PicController.returnPic
 
-GET         /getJson             controllers.ShowPic_h5.returnPic
-POST        /showPic             controllers.ShowPic_h5.showPic
-GET         /showWord            controllers.ShowPic_h5.showWord
-POST        /get_New_Data        controllers.New_Controller.returnPic
+GET         /getJson              controllers.ShowPic_h5.returnPic
+POST        /showPic              controllers.ShowPic_h5.showPic
+GET         /showWord             controllers.ShowPic_h5.showWord
+POST        /get_New_Data         controllers.New_Controller.returnPic
 POST        /get_Load_Data        controllers.New_Controller.returnLoad
 
-POST        /json                controllers.UserController.json
+POST        /json                 controllers.UserController.json
 
-GET         /getData             controllers.GetQiushiMM.getDta
-GET         /getWord             controllers.GetQiushibaike.getWord
-GET         /showPic_test             controllers.ShowPic_all.returnPic
+GET         /getData              controllers.GetQiushiMM.getDta
+GET         /getWord              controllers.GetQiushibaike.getWord
+GET         /getWord1             controllers.GetBaisibudejie.getWord
+GET         /showPic_test         controllers.ShowPic_all.returnPic
 
 # An example controller showing a sample home page
-GET         /*file               controllers.Assets.at(path="/public", file: String)
+GET         /*file                controllers.Assets.at(path="/public", file: String)
 # An example controller showing how to use dependency injection
-GET         /count               controllers.CountController.count
+GET         /count                controllers.CountController.count
 # An example controller showing how to write asynchronous code
-GET         /message             controllers.AsyncController.message
+GET         /message              controllers.AsyncController.message
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file         controllers.Assets.versioned(path="/public", file: Asset)
 
