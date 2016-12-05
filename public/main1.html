@@ -13,18 +13,16 @@
         .pic_area {
             position: absolute;
             top: 70px;
+            left: 0;
             height: 500px;
-            width: 300px;
+            width: 100%;
             overflow-x: hidden;
         }
 
         .pic_0 {
             overflow: hidden;
-            border: 5px solid white;
             margin: 0 auto;
-            border-radius: 7px;
-            box-shadow: 2px 2px 2px 2px #c9c9c9;
-            width: 290px;
+            width: 90%;
             height: 10px;
             position: absolute;
             left: 0;
@@ -33,11 +31,9 @@
 
         .pic_1 {
             overflow: hidden;
-            border: 5px solid white;
             margin: 0 auto;
-            border-radius: 7px;
             box-shadow: 2px 2px 2px 2px #c9c9c9;
-            width: 290px;
+            width: 100%;
             height: auto;
             position: absolute;
             left: 0;
@@ -87,6 +83,7 @@
             line-height: 30px;
             text-decoration: none;
         }
+
         .part_main_header {
             width: 100%;
             height: 50px;
@@ -123,10 +120,10 @@
         }
     </style>
     <!--<script language="javascript">-->
-        <!--document.ontouchstart = function (e) {-->
-            <!--//          e.preventDefault();-->
-            <!--console.info(e.target);-->
-        <!--}-->
+    <!--document.ontouchstart = function (e) {-->
+    <!--//          e.preventDefault();-->
+    <!--console.info(e.target);-->
+    <!--}-->
     <!--</script>-->
     <script language="javascript">
         var id = 1;
@@ -173,10 +170,6 @@
             }, 500);
             $("#" + (id_remove + 1)).removeClass("pic_0");
             $("#" + (id_remove + 1)).addClass("pic_1");
-//            var height_pic = $(".pic_1 img")[0].height;
-//            var height_describe = $(".pic_1 .describe")[0].height;
-//            var height = height_pic + height_describe;
-//            $("#pic_area").css("height", height);
             $("#pic_area").scrollTop(0);
 
             console.info("id_remove=" + id_remove);
@@ -197,8 +190,8 @@
         function set_window() {
             var clientWidth = document.documentElement.clientWidth;
             var clientHeight = document.documentElement.clientHeight;
-            var left = ((clientWidth - 300) / 2) + "px";
-            $("#pic_area").css("left", left);
+//            var left = ((clientWidth - 300) / 2) + "px";
+//            $("#pic_area").css("left", left);
             var height = (clientHeight - 52) + "px";
             $("#pic_area").css("height", height);
             $("#part_main").css("height", clientHeight);

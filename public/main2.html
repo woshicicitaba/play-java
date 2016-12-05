@@ -11,14 +11,15 @@
 
     <style type="text/css">
         .pic_area {
-            position: absolute;
-            top: 60px;
+            position: relative;
             height: auto;
-            width: 300px;
+            width: 100%;
             overflow-x: hidden;
             border-radius: 7px;
             /*box-shadow: 2px 2px 2px 2px #c9c9c9;*/
             margin-top: 10px;
+            clear: both;
+            float: left;
         }
 
         .pic_left {
@@ -86,6 +87,7 @@
             top: 0;
             background-color: #eeeeee;
         }
+
         .close_list {
             width: 100%;
             position: absolute;
@@ -110,13 +112,16 @@
             line-height: 30px;
             text-decoration: none;
         }
+
         .part_main_header {
             width: 100%;
             height: 50px;
-            position: absolute;
-            left: 0;
-            top: 0;
+            position: relative;
+            /*left: 0;*/
+            /*top: 0;*/
             background-color: #555555;
+            clear: both;
+            float: left;
         }
 
         .show_list {
@@ -147,10 +152,10 @@
 
     </style>
     <!--<script language="javascript">-->
-        <!--document.ontouchstart = function (e) {-->
-            <!--//          e.preventDefault();-->
-            <!--console.info(e.target);-->
-        <!--}-->
+    <!--document.ontouchstart = function (e) {-->
+    <!--//          e.preventDefault();-->
+    <!--console.info(e.target);-->
+    <!--}-->
     <!--</script>-->
     <script language="javascript">
         var id = 1;
@@ -176,6 +181,7 @@
             })
 //            console.info(p_id);
 //            console.info(r.data[0].url);
+            set_window();
             console.info("id1-2:" + id);
             id = id + 2;
             console.info("id-edd:" + id);
@@ -189,6 +195,7 @@
             $("#pic_area").prepend("<div id=" + id + " class='pic_left_back'><img src=" + url3 + " class='pic_left_pic'/></div><div id=" + (id + 1) + " class='pic_right_back'><img src=" + url3 + " class='pic_right_pic'/></div>");
             id = id + 2;
             console.info(id);
+            set_window();
         }
 
         function move() {
@@ -207,7 +214,6 @@
         }
 
         function get_data() {
-            set_window();
             $.post('/get_Load_Data', jsonData, function (res) {
                 // process response
                 r = $.parseJSON(res);
@@ -215,16 +221,26 @@
 //                var url = r.data[0].url;
 //                console.info(url);
             })
+            set_window();
         }
 
         function set_window() {
             var clientWidth = document.documentElement.clientWidth;
             var clientHeight = document.documentElement.clientHeight;
-            var left = ((clientWidth - 300) / 2) + "px";
-            $("#pic_area").css("left", left);
+//            var width = ( clientWidth / 2) + "px";
+            var width = (clientWidth / 2) + "px";
+            var left = ((clientWidth / 2) * (-1)) + "px";
             var height = (clientHeight - 72) + "px";
-            $("#pic_area").css("height", height);
-            $("#part_main").css("height", clientHeight);
+            $(".pic_area").css("height", height);
+            $(".pic_left").css("width", width);
+            $(".pic_right").css("width", width);
+            $(".pic_left_back").css("width", width);
+            $(".pic_right_back").css("width", width);
+            $(".pic_right_back").css("left", width);
+            $(".pic_right").css("left", width);
+            $(".pic_right_pic").css("left", left);
+            $(".pic_left_pic").css("width", clientWidth);
+            $(".pic_right_pic").css("width", clientWidth);
         }
 
         function show_list() {
@@ -237,7 +253,7 @@
 
     </script>
 </head>
-<body id="body" style="background-color: #eeeeee;" onload="get_data()"><!--get_data-->
+<body id="body" style="background-color: #eeeeee;" onload="get_data()"><!---->
 
 <div onclick="close_list()" id="part_choice" class="close_list">
     <div id="close_list" onclick="close_list()" class="link">
