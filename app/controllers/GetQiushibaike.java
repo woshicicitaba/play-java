@@ -1,6 +1,7 @@
 package controllers;
 
 import models.dataBase;
+import models.dataComment;
 import models.picData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -141,14 +142,18 @@ public class GetQiushibaike extends Controller {
         for (org.jsoup.nodes.Element e : elements1) {
             String comment = String.valueOf(e.select("span.body").text());
 //            play.Logger.info("comment:" + comment);
-            picData date_pic = new picData();
-            date_pic.setType_pic("comment");
-            date_pic.setValue(comment);
-            date_pic.setUrl("comment");
-            date_pic.setSource_id(real_id);
-            date_pic.setLike_num((long) 0);
-            date_pic.setLike_num((long) 0);
-            date_pic.insert();
+//            picData date_pic = new picData();
+//            date_pic.setType_pic("comment");
+//            date_pic.setValue(comment);
+//            date_pic.setUrl("comment");
+//            date_pic.setSource_id(real_id);
+//            date_pic.setLike_num((long) 0);
+//            date_pic.setLike_num((long) 0);
+//            date_pic.insert();
+            dataComment dataComment = new dataComment();
+            dataComment.setComment_detail(comment);
+            dataComment.setComment_header(real_id);
+            dataComment.insert();
         }
     }
 }
