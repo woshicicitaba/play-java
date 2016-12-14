@@ -63,6 +63,13 @@ function getWd() {
     })
 }
 
+function getWd1() {
+    $.get('/getWord1', function () {
+        console.info('end');
+    })
+}
+
+
 function showPoc() {
     $.get('/showPic_test', function () {
         console.info('end');
