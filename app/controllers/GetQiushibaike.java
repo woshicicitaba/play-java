@@ -48,7 +48,7 @@ public class GetQiushibaike extends Controller {
 
                 if ("Has_None" == judgeExist(id)) {
                     if (ppurl != null) {
-                        downLoadFromUrl(ppurl, pSrc, "E:/im");
+                        downLoadFromUrl(ppurl, pSrc, "E:/IdeaProjects/play-java/public/picc");
 
                         insertPicNews(ppData, id, pSrc);
                         get_comment(hrf, id);
@@ -66,12 +66,6 @@ public class GetQiushibaike extends Controller {
 
     //数据库插值
     public void insertPicNews(String Date, String Id, String Alt) {
-//        dataBase db = new dataBase();
-//        db.setType("Qiushibaike");
-//        db.setArrt1(Date);
-//        db.setArrt2(Alt);
-//        db.setArrt3(Id);
-//        db.insert();
 
         String new_alt = "picc/" + Alt;
 
@@ -141,19 +135,14 @@ public class GetQiushibaike extends Controller {
 
         for (org.jsoup.nodes.Element e : elements1) {
             String comment = String.valueOf(e.select("span.body").text());
-//            play.Logger.info("comment:" + comment);
-//            picData date_pic = new picData();
-//            date_pic.setType_pic("comment");
-//            date_pic.setValue(comment);
-//            date_pic.setUrl("comment");
-//            date_pic.setSource_id(real_id);
-//            date_pic.setLike_num((long) 0);
-//            date_pic.setLike_num((long) 0);
-//            date_pic.insert();
+            String person = String.valueOf(e.select("a").text());
             dataComment dataComment = new dataComment();
             dataComment.setComment_detail(comment);
             dataComment.setComment_header(real_id);
+            dataComment.setComment_person(person);
             dataComment.insert();
+            play.Logger.info("person:" + person);
+            play.Logger.info("comment" + comment);
         }
     }
 }
