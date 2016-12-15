@@ -86,7 +86,7 @@ public class New_Controller extends Controller {
 
         int id_new = Integer.parseInt(id) - 1;
 //        List<picData> new_pc = picData.find.where().ilike("id", String.valueOf(id_new)).findList();
-        List<picData> new_pc = picData.find.setFirstRow(1).setMaxRows(1).orderBy("id desc").findList();
+        List<picData> new_pc = picData.find.setFirstRow(Integer.parseInt(id)).setMaxRows(1).orderBy("id desc").findList();
         List<dataComment> dataComments = null;
         for (picData pp : new_pc) {
             String source = String.valueOf(pp.getSource_id());
