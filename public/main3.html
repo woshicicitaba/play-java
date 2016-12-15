@@ -12,7 +12,7 @@
     <style type="text/css">
         .pic_area {
             position: absolute;
-            top: 35px;
+            top: 45px;
             left: 0;
             height: 500px;
             width: 100%;
@@ -206,7 +206,7 @@
             $.post('/get_New_Data', jsonData, function (res) {
                 // process response
                 r = $.parseJSON(res);
-                $("#pic_area").prepend("<div id=" + p_id + " class='pic_0'><img id=" + pp_id + " src=" + r.data[0].url + " style='width: 100%'/><div class='describe'>" + r.data[0].value + "</div></div>");
+                $("#pic_area").prepend("<div id=" + p_id + " class='pic_0'><div class='describe'>" + r.data[0].value + "</div><img id=" + pp_id + " src=" + r.data[0].url + " style='width: 100%'/></div>");
                 set_window();
                 move();
                 for (var i = 0; i < r.comment.length; i++) {
@@ -235,8 +235,8 @@
                 var comment_id = "comment_" + id;
                 $("#pic_area").prepend(
                         "<div id=" + id + " class='pic_1'>" +
-                        "<img id=" + pic_id + " src=" + r.data1[0].url + " style='width: 100%'/>" +
                         "<div class='describe'>" + r.data1[0].value + "</div>" +
+                        "<img id=" + pic_id + " src=" + r.data1[0].url + " style='width: 100%'/>" +
                         "<div  class='comment_area'><div class='comment_title'>评论</div>" +
                         "<div id=" + comment_id + " class= 'comment_detail_area'></div></div>");
                 for (var i = 0; i < r.pic_comment1.length; i++) {
@@ -250,8 +250,8 @@
                 comment_id = "comment_" + id;
                 $("#pic_area").prepend(
                         "<div id=" + id + " class='pic_0'>" +
-                        "<img id=" + pic_id + " src=" + r.data2[0].url + " style='width: 100%'/>" +
                         "<div class='describe'>" + r.data2[0].value + "</div>" +
+                        "<img id=" + pic_id + " src=" + r.data2[0].url + " style='width: 100%'/>" +
                         "<div class='comment_area'><div class='comment_title'>评论</div><div id=" + comment_id + " class='comment_detail_area'></div></div>" +
 
                         "</div>");
@@ -348,6 +348,7 @@
     </script>
 </head>
 <body id="body" style="background-color: #eeeeee;" onload="get_data()">
+<!--onload="get_data()"-->
 <div onclick="close_list()" id="part_choice" class="close_list">
     <div id="close_list" onclick="close_list()" class="link">
         >>
@@ -372,19 +373,19 @@
         </div>
     </div>
     <div id="pic_area" class="pic_area" onclick="add()">
-        <div id="light_area" style="position: absolute;top:0;left:0;width: 100%;overflow: hidden;">
-            <div id="light" class="light">
-                <img src="light.png" style="width: 100%;height: 100%"/>
-            </div>
-        </div>
-        <div id="star_m1"
-             style="position: absolute;left: 0;top:150px;width:50px;height:50px;display:none;">
-            <img src="yellow_x.png" style="width: 100%"/>
-        </div>
+        <!--<div id="light_area" style="position: absolute;top:0;left:0;width: 100%;overflow: hidden;">-->
+        <!--<div id="light" class="light">-->
+        <!--<img src="light.png" style="width: 100%;height: 100%"/>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div id="star_m1"-->
+        <!--style="position: absolute;left: 0;top:150px;width:50px;height:50px;display:none;">-->
+        <!--<img src="yellow_x.png" style="width: 100%"/>-->
+        <!--</div>-->
         <!--<div id="1" class='pic_1'>-->
-        <!--<img id="pic_1" src="pic/10.jpg" style='width: 100%'/>-->
-
         <!--<div class='describe'>value1</div>-->
+        <!--<img id="pic_1" src="pic/10.jpg" style='width: 100%'/>-->
+        <!--</div>-->
 
         <!--<div class="comment_area">-->
         <!--<div class="comment_title">-->
@@ -400,7 +401,7 @@
         <!--<span style="float: left;width:50%;word-wrap: break-word;border-left:3px solid #ffffff;">ssssdsdasdasdasdasdssssdsdasdasdasdasdssssdsdasdasdasdasdssssdsdasdasdasdasd</span>-->
         <!--</div>-->
         <!--</div>-->
-        <!--</div>-->
+
     </div>
 </div>
 </body>
