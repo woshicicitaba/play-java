@@ -33,9 +33,9 @@ public class New_Controller extends Controller {
         form = formFactory.form();
     }
 
+    //load事件
     public play.mvc.Result returnLoad() throws JsonProcessingException {
         Map<String, Object> map = new HashMap<>();
-//        List<picData> pc = picData.find.setFirstRow(1).setMaxRows(3).orderBy("id desc").findList();
         List<picData> pc_1 = picData.find.setFirstRow(1).setMaxRows(1).orderBy("id desc").findList();
         map.put("data1", pc_1);
         for (picData pp : pc_1) {
@@ -59,18 +59,17 @@ public class New_Controller extends Controller {
         }
     }
 
-    //addͼƬ
+    //add事件
     public play.mvc.Result returnPic() throws JsonProcessingException {
         Map<String, String> getData = form.bindFromRequest().data();
 //        Logger.debug(String.valueOf(getData));
         String id = getData.get("id");
         String like = getData.get("like");
         String dislike = getData.get("dislike");
-        //       Logger.debug(String.valueOf(id));
+        Logger.debug(String.valueOf(id));
 
-        List<picData> pc = picData.find.where().ilike("id", id).findList();
+        List<picData> pc = picData.find.where().ilike("id", String.valueOf((Integer.parseInt(id) - 1))).findList();
         for (picData p : pc) {
-//            p.setValue("aaas");
             int old_dislike_num = Integer.parseInt(String.valueOf(p.getDis_like_num()));
             int dislike_num = Integer.parseInt(String.valueOf(dislike));
             int new_dislike_num = old_dislike_num + dislike_num;
@@ -84,9 +83,9 @@ public class New_Controller extends Controller {
             p.update();
         }
 
-        int id_new = Integer.parseInt(id) - 1;
-//        List<picData> new_pc = picData.find.where().ilike("id", String.valueOf(id_new)).findList();
-        List<picData> new_pc = picData.find.setFirstRow(Integer.parseInt(id)).setMaxRows(1).orderBy("id desc").findList();
+        int new_id = Integer.parseInt(id) + 1;
+        Logger.debug(String.valueOf(new_id));
+        List<picData> new_pc = picData.find.setFirstRow(new_id).setMaxRows(1).orderBy("id desc").findList();
         List<dataComment> dataComments = null;
         for (picData pp : new_pc) {
             String source = String.valueOf(pp.getSource_id());
