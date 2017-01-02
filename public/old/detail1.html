@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <title></title>
+    <script src="z.js"></script>
+
+    <style type="text/css">
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        span {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            margin: 0;
+            padding: 0;
+        }
+
+        .body {
+            background-color: #eeeeee;
+            padding: 0;
+            margin: 0;
+            font-family: '微软雅黑';
+        }
+
+        .title {
+            width: 100%;
+            height: 45px;
+            float: left;
+            clear: both;
+            position: relative;
+            line-height: 45px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .more {
+            width: 45px;
+            height: 45px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            line-height: 35px;
+            color: #ffffff;
+        }
+
+        .header {
+            width: 100%;
+            height: 45px;
+            float: left;
+            clear: both;
+            background-color: #000000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .pic_area {
+            float: left;
+            clear: both;
+            width: 100%;
+            background-color: #FFFFFF;
+        }
+
+        .discuss {
+            float: left;
+            clear: both;
+            width: 100%;
+            color: #555555;
+            font-size: 15px;
+            margin: 5px;
+        }
+
+        .pic {
+            width: 100%;
+            clear: both;
+            float: left;
+        }
+
+        .main {
+            overflow-x: hidden;
+            float: left;
+            clear: both;
+            width: 100%;
+            height: auto;
+            position: absolute;
+            background-color: #eeeeee;
+            color: black;
+            z-index: 10;
+            font-size: 16px;
+            font-family: '微软雅黑';
+            top: 45px;
+            padding-bottom: 45px;
+        }
+
+        .bottom {
+            width: 100%;
+            height: 45px;
+            position: fixed;
+            background-color: #f5f5f5;
+            bottom: 0;
+            left: 0;
+            z-index: 200;
+        }
+
+        .new_comment {
+            width: 180px;
+            height: 15px;
+            margin: 10px 5px 10px 10px;
+            float: left;
+            border-radius: 15px;
+            border: 1px solid #555555;
+            padding: 5px;
+        }
+
+        .comment_area {
+            float: left;
+            clear: both;
+            width: 100%;
+            position: relative;
+            color: #727172;
+            border-bottom: 1px solid #555555;
+        }
+
+        .comment_pic {
+            width: 45px;
+            height: 45px;
+            clear: both;
+            float: left;
+            margin: 5px;
+        }
+
+        .comment_floor {
+            float: right;
+            margin: 5px 5px 0 0;
+            font-size: 13px;
+            color: #727172;
+        }
+
+        .comment_name {
+            float: left;
+            width: 200px;
+            height: auto;
+            margin: 3px;
+            font-size: 13px;
+            color: #727172;
+        }
+
+        .comment_detail {
+            float: left;
+            width: 250px;
+            height: auto;
+            margin: 3px;
+            font-size: 15px;
+        }
+
+    </style>
+
+    <script language="javascript">
+        var r;
+        var jsonData = {};
+        var height=0;
+
+        function b() {
+            window.history.back(-1);
+        }
+
+        function get_id() {
+            var url = location.search; //获取url中"?"符后的字串
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                return str;
+            }
+        }
+
+        function get_data() {
+            jsonData.id = get_id();
+            $.post('/get_Old_Comment', jsonData, function (res) {
+                // process response
+                r = $.parseJSON(res);
+                var link = '../';
+                var url = link + r.data1[0].url;
+                console.info(url);
+                $("#main").append("<div class='pic_area'>" +
+                        "<img src=" + url + " class='pic'/>" +
+                        "<p class='discuss'>" + r.data1[0].value + "</p></div>" +
+                        "<div class='comment_header'>评论区域</div>");
+                for (var i = 0; i < r.pic_comment1.length; i++) {
+                    $("#main").append("<div class='comment_area'>" +
+                            "<img src='a.jpg' class='comment_pic'/>" +
+                            "<p class='comment_name'>" + r.pic_comment1[i].comment_person + "</p>" +
+                            "<p class='comment_floor'>#" + i + "</p>" +
+                            "<p class='comment_detail'>" + r.pic_comment1[i].comment_detail + "</p></div>");
+                }
+            })
+        }
+    </script>
+</head>
+<body id="body" class="body" onload="get_data()">
+<div id="header" class="header">
+    <div class="title">
+        逗B的自我休养
+    </div>
+    <div id="more" class="more">
+        ...
+    </div>
+</div>
+<div id="main" class="main">
+    <!--<div class="pic_area" >-->
+    <!--<img src='a.jpg' class="pic"/>-->
+    <!--<p class="discuss">啊啊啊啊啊顶顶顶</p>-->
+    <!--</div>-->
+
+    <!--<div class="comment_header">评论区域-->
+    <!--</div>-->
+
+    <!--<div class="comment_area">-->
+    <!--<img src='a.jpg' class="comment_pic"/>-->
+
+    <!--<p class="comment_name">aaaaaaaa</p>-->
+
+    <!--<p class='comment_floor'>#1</p>-->
+
+    <!--<p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>-->
+    <!--</div>-->
+</div>
+<div id="bottom" class="bottom">
+    <input type="text" name="new_comment" value="写下你的神评论" class="new_comment">
+    <img src="a.jpg" style="width: 35px;float: right;margin: 5px;"/>
+    <img src="a.jpg" style="width: 35px;float: right;margin: 5px;"/>
+</div>
+</body>
+</html>
