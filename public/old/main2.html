@@ -74,7 +74,7 @@
         .discuss {
             float: left;
             clear: both;
-            width: 100%;
+            width: 98%;
             color: #555555;
             font-size: 15px;
             margin: 5px;
@@ -127,7 +127,7 @@
             color: #080808;
         }
 
-        .more {
+        .more_bottom {
             width: 100%;
             height: auto;
             clear: both;
@@ -145,6 +145,108 @@
             border: 1px solid #000000;
             color: #888888;
         }
+
+        <!--
+        -->
+        .pic_area {
+            float: left;
+            clear: both;
+            width: 100%;
+            background-color: #FFFFFF;
+        }
+
+        .discuss {
+            float: left;
+            clear: both;
+            width: 100%;
+            color: #555555;
+            font-size: 15px;
+            margin: 5px;
+        }
+
+        .pic {
+            width: 100%;
+            clear: both;
+            float: left;
+        }
+
+        .main_right {
+            overflow-x: hidden;
+            float: left;
+            clear: both;
+            width: 100%;
+            height: auto;
+            position: absolute;
+            background-color: #eeeeee;
+            color: black;
+            z-index: 10;
+            font-size: 16px;
+            font-family: '微软雅黑';
+            top: 45px;
+            padding-bottom: 45px;
+        }
+
+        .bottom {
+            width: 100%;
+            height: 45px;
+            position: fixed;
+            background-color: #f5f5f5;
+            bottom: 0;
+            left: 0;
+            z-index: 200;
+        }
+
+        .new_comment {
+            width: 180px;
+            height: 15px;
+            margin: 10px 5px 10px 10px;
+            float: left;
+            border-radius: 15px;
+            border: 1px solid #555555;
+            padding: 5px;
+        }
+
+        .comment_area {
+            float: left;
+            clear: both;
+            width: 100%;
+            position: relative;
+            color: #727172;
+            border-bottom: 1px solid #555555;
+        }
+
+        .comment_pic {
+            width: 45px;
+            height: 45px;
+            clear: both;
+            float: left;
+            margin: 5px;
+        }
+
+        .comment_floor {
+            float: right;
+            margin: 5px 5px 0 0;
+            font-size: 13px;
+            color: #727172;
+        }
+
+        .comment_name {
+            float: left;
+            width: 200px;
+            height: auto;
+            margin: 3px;
+            font-size: 13px;
+            color: #727172;
+        }
+
+        .comment_detail {
+            float: left;
+            width: 250px;
+            height: auto;
+            margin: 3px;
+            font-size: 15px;
+        }
+
     </style>
 
     <script language="javascript">
@@ -154,8 +256,10 @@
         var jsonData = {};
         var height = 0;
 
-        function a() {
-            sessionStorage.setItem('key_a', 1);
+        function load() {
+            var clientWidth = window.screen.availWidth;
+            $("#bottom").css('left', clientWidth);
+            add();
         }
 
         function add() {
@@ -183,49 +287,129 @@
             })
         }
 
+        function move() {
+            var top = document.body.scrollTop;
+            top = (top + 45) + "px";
+            $("#part_right").css('top', top);
+            var clientWidth = window.screen.availWidth;
+            var left = (clientWidth * (-1)) + "px";
+            console.info(left);
+            $("#part_main").css('left', left);
+            $("#bottom").css('left', '0');
+        }
     </script>
 </head>
-<body id="body" class="body" onload="add()">
-<div id="header" class="header">
-    <div class="title">
-        逗B的自我休养
+<body id="body" class="body" onload="load()">
+<div id="part_main" style="float: left;clear: both;width: 200%;position: relative;">
+    <div id="part_left" style="float: left;clear: both;width: 50%;position: relative;overflow-x:hidden; ">
+        <div id="header" class="header">
+            <div class="title">
+                逗B的自我休养
+            </div>
+            <div id="more" class="more">
+                ...
+            </div>
+        </div>
+        <div id="main" class="main">
+            <!--<div id="1" class="pic_area">-->
+            <!--<img src='a.jpg' class="pic"/>-->
+
+            <!--<p class="discuss">啊啊啊啊啊顶顶顶</p>-->
+            <!--<span class="like">喜欢</span>-->
+            <!--<span class="dislike">不喜欢</span>-->
+            <!--<span class="talk">评论</span>-->
+            <!--</div>-->
+
+            <!--<div id="2" class="pic_area">-->
+            <!--<img src='a.jpg' class="pic"/>-->
+
+            <!--<p class="discuss">啊啊啊啊啊顶顶顶</p>-->
+            <!--<span style="width: 45px;height: 45px;float: left;clear: both;background-color: #f9f9f9;margin: 5px;">喜欢</span>-->
+            <!--<span style="width: 45px;height: 45px;float: left;background-color: #f9f9f9;margin: 5px;">不喜欢</span>-->
+            <!--<span style="width: 45px;height: 45px;float: right;background-color: #f9f9f9;margin: 5px;">评论</span>-->
+            <!--</div>-->
+
+            <!--<div id="3" class="pic_area">-->
+            <!--<img src='a.jpg' class="pic"/>-->
+
+            <!--<p class="discuss">啊啊啊啊啊顶顶顶</p>-->
+            <!--<span style="width: 45px;height: 45px;float: left;clear: both;background-color: #f9f9f9;margin: 5px;">喜欢</span>-->
+            <!--<span style="width: 45px;height: 45px;float: left;background-color: #f9f9f9;margin: 5px;">不喜欢</span>-->
+            <!--<span style="width: 45px;height: 45px;float: right;background-color: #f9f9f9;margin: 5px;">评论</span>-->
+            <!--</div>-->
+        </div>
+        <div class="more_bottom">
+            <div id="more_button" class="more_button" onclick="add()">
+                加 载 更 多
+            </div>
+        </div>
     </div>
-    <div id="more" class="more">
-        ...
+
+
+    <div id="part_right" style="float: left;width: 50%;position: relative;">
+        <div id="main_right" class="main_right">
+            <div class="pic_area">
+                <img src='a.jpg' class="pic"/>
+
+                <p class="discuss">啊啊啊啊啊顶顶顶</p>
+            </div>
+
+            <div class="comment_header">评论区域
+            </div>
+
+            <div class="comment_area">
+                <img src='a.jpg' class="comment_pic"/>
+
+                <p class="comment_name">aaaaaaaa</p>
+
+                <p class='comment_floor'>#1</p>
+
+                <p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>
+             </div>
+            <div class="comment_area">
+                <img src='a.jpg' class="comment_pic"/>
+
+                <p class="comment_name">aaaaaaaa</p>
+
+                <p class='comment_floor'>#1</p>
+
+                <p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>
+            </div>
+            <div class="comment_area">
+                <img src='a.jpg' class="comment_pic"/>
+
+                <p class="comment_name">aaaaaaaa</p>
+
+                <p class='comment_floor'>#1</p>
+
+                <p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>
+            </div>
+            <div class="comment_area">
+                <img src='a.jpg' class="comment_pic"/>
+
+                <p class="comment_name">aaaaaaaa</p>
+
+                <p class='comment_floor'>#1</p>
+
+                <p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>
+            </div>
+            <div class="comment_area">
+                <img src='a.jpg' class="comment_pic"/>
+
+                <p class="comment_name">aaaaaaaa</p>
+
+                <p class='comment_floor'>#1</p>
+
+                <p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>
+            </div>
+
+        </div>
     </div>
 </div>
-<div id="main" class="main">
-    <!--<div id="1" class="pic_area">-->
-    <!--<img src='a.jpg' class="pic"/>-->
-
-    <!--<p class="discuss">啊啊啊啊啊顶顶顶</p>-->
-    <!--<span class="like">喜欢</span>-->
-    <!--<span class="dislike">不喜欢</span>-->
-    <!--<span class="talk">评论</span>-->
-    <!--</div>-->
-
-    <!--<div id="2" class="pic_area">-->
-    <!--<img src='a.jpg' class="pic"/>-->
-
-    <!--<p class="discuss">啊啊啊啊啊顶顶顶</p>-->
-    <!--<span style="width: 45px;height: 45px;float: left;clear: both;background-color: #f9f9f9;margin: 5px;">喜欢</span>-->
-    <!--<span style="width: 45px;height: 45px;float: left;background-color: #f9f9f9;margin: 5px;">不喜欢</span>-->
-    <!--<span style="width: 45px;height: 45px;float: right;background-color: #f9f9f9;margin: 5px;">评论</span>-->
-    <!--</div>-->
-
-    <!--<div id="3" class="pic_area">-->
-    <!--<img src='a.jpg' class="pic"/>-->
-
-    <!--<p class="discuss">啊啊啊啊啊顶顶顶</p>-->
-    <!--<span style="width: 45px;height: 45px;float: left;clear: both;background-color: #f9f9f9;margin: 5px;">喜欢</span>-->
-    <!--<span style="width: 45px;height: 45px;float: left;background-color: #f9f9f9;margin: 5px;">不喜欢</span>-->
-    <!--<span style="width: 45px;height: 45px;float: right;background-color: #f9f9f9;margin: 5px;">评论</span>-->
-    <!--</div>-->
-</div>
-<div class="more">
-    <div id="more_button" class="more_button" onclick="add()">
-        加 载 更 多
-    </div>
+<div id="bottom" class="bottom">
+    <input type="text" name="new_comment" value="写下你的神评论" class="new_comment">
+    <img src="a.jpg" style="width: 35px;float: right;margin: 5px;"/>
+    <img src="a.jpg" style="width: 35px;float: right;margin: 5px;"/>
 </div>
 </body>
 </html>
