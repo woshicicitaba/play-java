@@ -214,7 +214,7 @@
             float: left;
             clear: both;
             width: 100%;
-            height: 0;
+            height: auto;
             overflow: hidden;
 
             transition: height 2s;
@@ -239,6 +239,7 @@
             position: relative;
             color: #727172;
             border-bottom: 1px solid #f5f5f5;
+            left: -50px;
         }
 
         .comment_pic {
@@ -350,10 +351,10 @@
         }
 
         function add_comment(click_button) {
-            var click_b=click_button;
+            var click_b = click_button;
             console.info(click_b);
             discuss_button(click_b);
-            var click_id=click_b.id;
+            var click_id = click_b.id;
             var new_id = click_id.substring(0, click_id.length - 5);
 //            console.info(new_id);
             var comment_id = new_id + '_c';
@@ -365,15 +366,17 @@
             $.post('/get_Old_Comment', jsonComment, function (res) {
                 rr = $.parseJSON(res);
                 for (var i = 0; i < rr.pic_comment1.length; i++) {
-                    $("#" + comment_id).append("<div class='comment_area'>" +
+                    var time = 50 * i;
+                    var id = rr.pic_comment1[i].id + 'cd';
+                    $("#" + comment_id).append("<div id=" + id + " class='comment_area'>" +
                             "<img src='a.jpg' class='comment_pic'/>" +
                             "<p class='comment_name'>" + rr.pic_comment1[i].comment_person + "</p>" +
                             "<p class='comment_floor'>#" + (i + 1) + "</p>" +
                             "<p class='comment_detail'>" + rr.pic_comment1[i].comment_detail + "</p></div>");
-                }
-                var height = $("#" + comment_id).css("height");
-                $("#" + comment_id_p).css("height", height);
-            })
+                    var t = "$('#" + id + "').animate({left: '0'},'fast','swing')";
+                    setTimeout(t, time);
+                }//for
+            })//post
         }
 
         function like_button(e) {
