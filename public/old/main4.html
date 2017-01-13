@@ -7,6 +7,8 @@
     <title></title>
     <script src="z.js"></script>
     <script src="z-fx.js"></script>
+    <script src="ease.min.js"></script>
+    <script src="segment.min.js"></script>
 
     <style type="text/css">
         p {
@@ -33,19 +35,20 @@
 
         .title {
             width: 100%;
-            height: 45px;
+            height: 60px;
             float: left;
             clear: both;
             position: relative;
-            line-height: 45px;
+            line-height: 60px;
             color: #ffffff;
             text-align: center;
-            font-size: 18pt;
+            font-size: 19pt;
+            letter-spacing: 2px;
         }
 
         .more_point {
-            width: 45px;
-            height: 45px;
+            width: 60px;
+            height: 60px;
             position: absolute;
             right: 0;
             top: 0;
@@ -56,7 +59,7 @@
 
         .header {
             width: 100%;
-            height: 45px;
+            height: 60px;
             float: left;
             clear: both;
             background-color: #000000;
@@ -64,6 +67,7 @@
             top: 0;
             left: 0;
             z-index: 100;
+            line-height: 60px;
         }
 
         .pic_area {
@@ -180,7 +184,6 @@
             text-align: center;
             line-height: 50px;
             height: 50px;
-            border: 2px solid #888888;
             color: #888888;
             border-radius: 5px;
             font-size: 16pt;
@@ -251,6 +254,47 @@
             margin: 3px;
             font-size: 11pt;
             color: #353535;
+        }
+
+        /*svg标签*/
+        .menu-icon-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 34px;
+            pointer-events: none;
+            transition: 0.1s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            margin: 15px 0 0 0;
+            padding: 0;
+        }
+
+        .menu-icon-wrapper.scaled {
+            -webkit-transform: scale(0.5);
+            -ms-transform: scale(0.5);
+            transform: scale(0.5);
+        }
+
+        .menu-icon-wrapper svg {
+            position: absolute;
+            top: -33px;
+            left: -33px;
+            -webkit-transform: scale(0.1);
+            -ms-transform: scale(0.1);
+            transform: scale(0.1);
+            -webkit-transform-origin: 0 0;
+            -ms-transform-origin: 0 0;
+            transform-origin: 0 0;
+        }
+
+        .menu-icon-wrapper svg path {
+            stroke: #fff;
+            stroke-width: 30px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: transparent;
         }
     </style>
 
@@ -332,10 +376,20 @@
 <body id="body" class="body" onload="add()">
 <div id="header" class="header">
     <div class="title">
-        逗B的自我休养
+        逗B拯救世界
     </div>
-    <div id="more" class="more_point">
-        ...
+    <div id="more" class="more_point" onclick="cli()">
+        <div class="menu-icon-wrapper">
+            <!-- SVG element with paths -->
+            <svg width="1000px" height="1000px">
+                <path id="pathA"
+                      d="M 300 400 L 700 400 C 900 400 900 750 600 850 A 400 400 0 0 1 200 200 L 800 800"></path>
+                <path id="pathB" d="M 300 500 L 700 500"></path>
+                <path id="pathC"
+                      d="M 700 600 L 300 600 C 100 600 100 200 400 150 A 400 380 0 1 1 200 800 L 800 200"></path>
+            </svg>
+            <!-- Trigger to perform the animations -->
+        </div>
     </div>
 </div>
 <div id="main" class="main">
@@ -451,5 +505,189 @@
         加 载 更 多
     </div>
 </div>
+<div style="position: fixed;top:60px;width: 100%;height: auto;left:0;height: 0px;z-index: 999;">
+    <div id="new_1"
+         style="border:1px solid #000000;border-radius:5px;background-color: #ffffff;position: relative;top:20px;left: -300px;width: 280px;height:40px;line-height:40px;z-index: 999;color: #000000;text-align: center;">
+        逗B新世界一
+    </div>
+    <div id="new_2"
+         style="border:1px solid #000000;border-radius:5px;background-color: #ffffff;position: relative;top:40px;left: -300px;width: 280px;height:40px;line-height:40px;z-index: 999;color: #000000;text-align: center;">
+        逗B新世界二
+    </div>
+    <div id="new_3"
+         style="border:1px solid #000000;border-radius:5px;background-color: #ffffff;position: relative;top:60px;left: -300px;width: 280px;height:40px;line-height:40px;z-index: 999;color: #000000;text-align: center;">
+        逗B新世界三
+    </div>
+    <div id="new_4"
+         style="border:1px solid #000000;border-radius:5px;background-color: #ffffff;position: relative;top:80px;left: -300px;width: 280px;height:40px;line-height:40px;z-index: 999;color: #000000;text-align: center;">
+        逗B新世界四
+    </div>
+</div>
+<script type="application/javascript">
+    <!--操作SVG动画-->
+    var beginAC = 80, endAC = 320, beginB = 80, endB = 320;
+    var pathA = document.getElementById('pathA'), pathB = document.getElementById('pathB'), pathC = document.getElementById('pathC');
+    var segmentA = new Segment(pathA, beginAC, endAC), segmentB = new Segment(pathB, beginB, endB), segmentC = new Segment(pathC, beginAC, endAC);
+
+    function inAC(s) {
+        s.draw('80% - 240', '80%', 0.3, {
+            delay: 0.1,
+            callback: function () {
+                inAC2(s)
+            }
+        });
+    }
+
+    function inAC2(s) {
+        s.draw('100% - 545', '100% - 305', 0.6, {
+            easing: ease.ease('elastic-out', 1, 0.3)
+        });
+    }
+
+    function inB(s) {
+        s.draw(beginB - 60, endB + 60, 0.1, {
+            callback: function () {
+                inB2(s)
+            }
+        });
+    }
+
+    function inB2(s) {
+        s.draw(beginB + 120, endB - 120, 0.3, {
+            easing: ease.ease('bounce-out', 1, 0.3)
+        });
+    }
+
+    /* Out animations (to burger icon) */
+
+    function outAC(s) {
+        s.draw('90% - 240', '90%', 0.1, {
+            easing: ease.ease('elastic-in', 1, 0.3),
+            callback: function () {
+                outAC2(s)
+            }
+        });
+    }
+
+    function outAC2(s) {
+        s.draw('20% - 240', '20%', 0.3, {
+            callback: function () {
+                outAC3(s)
+            }
+        });
+    }
+
+    function outAC3(s) {
+        s.draw(beginAC, endAC, 0.7, {
+            easing: ease.ease('elastic-out', 1, 0.3)
+        });
+    }
+
+    function outB(s) {
+        s.draw(beginB, endB, 0.7, {
+            delay: 0.1,
+            easing: ease.ease('elastic-out', 2, 0.4)
+        });
+    }
+
+
+    // Linear section, with a callback to the next
+    function inAC(s) {
+        s.draw('80% - 24', '80%', 0.3, {
+            delay: 0.1, callback: function () {
+                inAC2(s)
+            }
+        });
+    }
+
+    // Elastic section, using elastic-out easing function
+    function inAC2(s) {
+        s.draw('100% - 54.5', '100% - 30.5', 0.6, {easing: ease.ease('elastic-out', 1, 0.3)});
+    }
+
+    function inAC2(s) {
+        s.draw('100% - 545', '100% - 305', 0.6, {
+            easing: ease.ease('elastic-out', 1, 0.3)
+        });
+    }
+
+    function inB2(s) {
+        s.draw(beginB + 120, endB - 120, 0.3, {
+            easing: ease.ease('bounce-out', 1, 0.3)
+        });
+    }
+
+    function outAC(s) {
+        s.draw('90% - 240', '90%', 0.1, {
+            easing: ease.ease('elastic-in', 1, 0.3),
+            callback: function () {
+                outAC2(s)
+            }
+        });
+    }
+
+    function outAC2(s) {
+        s.draw('20% - 240', '20%', 0.3, {
+            callback: function () {
+                outAC3(s)
+            }
+        });
+    }
+
+    function outAC3(s) {
+        s.draw(beginAC, endAC, 0.7, {
+            easing: ease.ease('elastic-out', 1, 0.3)
+        });
+    }
+
+    function outB(s) {
+        s.draw(beginB, endB, 0.7, {
+            delay: 0.1,
+            easing: ease.ease('elastic-out', 2, 0.4)
+        });
+    }
+
+    var flag = 'in';
+    function cli() {
+        if (flag == 'in') {
+            inAC(segmentA);
+            inB(segmentB);
+            inAC(segmentC);
+            $("#new_1").animate({left: "20px"}, "fast", "swing");
+            setTimeout(function () {
+                $("#new_2").animate({left: "20px"}, "fast", "swing");
+            }, '50');
+            setTimeout(function () {
+                $("#new_3").animate({left: "20px"}, "fast", "swing");
+            }, '100');
+            setTimeout(function () {
+                $("#new_4").animate({left: "20px"}, "fast", "swing");
+            }, '150');
+            flag = 'out';
+        }
+        else {
+            outAC(segmentA);
+            outB(segmentB);
+            outAC(segmentC);
+            $("#new_1").animate({left: "-300px"}, "fast", "swing");
+            setTimeout(function () {
+                $("#new_2").animate({left: "-300px"}, "fast", "swing");
+            }, '50');
+            setTimeout(function () {
+                $("#new_3").animate({left: "-300px"}, "fast", "swing");
+            }, '100');
+            setTimeout(function () {
+                $("#new_4").animate({left: "-300px"}, "fast", "swing");
+            }, '150');
+            flag = 'in';
+        }
+    }
+
+    function move(id) {
+//        var id=id;
+//        console.info(id);
+        $("#" + id).animate({left: "20px"}, "fast", "swing");
+    }
+</script>
 </body>
 </html>
