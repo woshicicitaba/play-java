@@ -11,6 +11,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.Timer;
 
 /**
  * Created by admin on 2016-10-8.
@@ -18,6 +19,16 @@ import java.util.List;
 public class GetQiushibaike extends Controller {
 
     public play.mvc.Result getWord() throws IOException {
+        //添加定时器代码
+        Timer timer = new Timer();
+        MyTask myTask1 = new MyTask();
+        timer.schedule(myTask1, 1000, 10800000);//10800000
+        return ok();
+    }
+
+    public void get_word_main() throws IOException {
+//        play.Logger.info("aaaaa");
+
         int page_num = 1;//
         for (int j = 1; j <= 1; j++) {
             String url = "http://www.qiushibaike.com/imgrank/page/" + page_num + "/";
@@ -61,7 +72,6 @@ public class GetQiushibaike extends Controller {
             }
             page_num++;
         }
-        return ok();
     }
 
     //数据库插值
@@ -143,6 +153,20 @@ public class GetQiushibaike extends Controller {
             dataComment.insert();
             play.Logger.info("person:" + person);
             play.Logger.info("comment" + comment);
+        }
+    }
+
+    class MyTask extends java.util.TimerTask {
+
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+//            play.Logger.info("aaaaa");
+            try {
+                get_word_main();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

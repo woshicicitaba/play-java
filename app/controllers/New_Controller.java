@@ -101,4 +101,41 @@ public class New_Controller extends Controller {
             return badRequest();
         }
     }
+
+    //老版添加事件
+    public play.mvc.Result returnOldData() throws JsonProcessingException {
+        Map<String, String> getData = form.bindFromRequest().data();
+        String order = getData.get("order");
+        String num = getData.get("num");
+        List<picData> new_pc = picData.find.setFirstRow(Integer.parseInt(order)).setMaxRows(Integer.parseInt(num)).orderBy("id desc").findList();
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", new_pc);
+
+        try {
+            return ok(Json.mapper().writeValueAsString(map));
+        } catch (JsonProcessingException e) {
+            return badRequest();
+        }
+    }
+
+    //老版添加评论
+    public play.mvc.Result returnOldComment() throws JsonProcessingException {
+        Map<String, String> getData = form.bindFromRequest().data();
+        String id = getData.get("id");
+
+        Map<String, Object> map = new HashMap<>();
+        List<picData> pc_1 = picData.find.where().like("id", id).findList();
+        map.put("data1", pc_1);
+        for (picData pp : pc_1) {
+            String source = String.valueOf(pp.getSource_id());
+            List<dataComment> dataComments = dataComment.find.where().like("comment_header", source).findList();
+            map.put("pic_comment1", dataComments);
+        }
+
+        try {
+            return ok(Json.mapper().writeValueAsString(map));
+        } catch (JsonProcessingException e) {
+            return badRequest();
+        }
+    }
 }
