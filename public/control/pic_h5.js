@@ -24,13 +24,6 @@ function remove() {
     }
 }
 
-//window.onscroll = function () {
-//    if ($("#oBody").height() - $("#oBody").scrollTop() <= $(window).height()) {
-//        load();
-//    }
-//    //remove();
-//}
-
 function load() {
     console.info(m);
     $.get('/getJson', function (res) {
