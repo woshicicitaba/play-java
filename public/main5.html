@@ -25,6 +25,43 @@
             padding: 0;
         }
 
+        .body {
+            background-color: #eeeeee;
+            padding: 0;
+            margin: 0;
+            font-family: '微软雅黑';
+        }
+
+        .title {
+            width: 100%;
+            height: 45px;
+            float: left;
+            clear: both;
+            position: relative;
+            line-height: 45px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .star {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 45px;
+            display: none;
+        }
+
+        .more {
+            width: 45px;
+            height: 45px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            line-height: 35px;
+            color: #ffffff;
+        }
+
         .header {
             width: 100%;
             height: 45px;
@@ -35,7 +72,7 @@
         }
 
         .pic_1 {
-            width: 300px;
+            width: 100%;
             height: auto;
             float: left;
             clear: both;
@@ -45,7 +82,7 @@
         }
 
         .pic_2 {
-            width: 300px;
+            width: 100%;
             height: auto;
             float: left;
             clear: both;
@@ -64,6 +101,9 @@
             float: left;
             clear: both;
             width: 100%;
+            color: #ffffff;
+            background-color: #000000;
+            font-size: 15px;
         }
 
         .pic {
@@ -76,7 +116,10 @@
             clear: both;
             float: left;
             width: 100%;
-            position: relative
+            position: relative;
+            background-color: #595757;
+            font-size: 18px;
+            color: #FFFFFF;
         }
 
         .comment_area {
@@ -84,6 +127,8 @@
             clear: both;
             width: 100%;
             position: relative;
+            background-color: #727172;
+            color: #ffffff;
         }
 
         .comment_pic {
@@ -94,13 +139,20 @@
             margin: 5px;
         }
 
+        .comment_floor {
+            float: right;
+            margin: 5px 5px 0 0;
+            font-size: 13px;
+            color: #c9cacb;
+        }
+
         .comment_name {
             float: left;
-            width: 250px;
+            width: 200px;
             height: auto;
             margin: 3px;
-            font-size: 14px;
-            color: #555555;
+            font-size: 13px;
+            color: #ffffff;
         }
 
         .comment_detail {
@@ -164,21 +216,22 @@
                 r = $.parseJSON(res);
                 $("#main").prepend(
                         "<div id=" + new_id + " class='pic_2'><span class='pic_area'>" +
-                        "<p class='discuss'>" + r.data[0].value + "</p>" +
                         "<img src=" + r.data[0].url + " class='pic'/></span>" +
-                        "<span class='comment_header'>评论区域</span></div>");
+                        "<span class='discuss'><p style='margin: 5px'>" + r.data[0].value + "</p></span>" +
+                        "<span class='comment_header'><p style='margin: 5px'>" + r.comment.length + "条评论</p></span></div>");
                 for (var i = 0; i < r.comment.length; i++) {
                     $("#" + new_id).append(
-                            "<span style='float: left;clear: both;width: 100%;position: relative;'>" +
+                            "<span class='comment_area'>" +
                             "<img src='a.jpg' class='comment_pic'/>" +
                             "<p class='comment_name'>" + r.comment[i].comment_person + "</p>" +
+                            "<p class='comment_floor'>#" + i + "</p>" +
                             "<p class='comment_detail'>" + r.comment[i].comment_detail + "</p></span>"
                     );
                 }
                 var clientWidth = document.documentElement.clientWidth;
                 var width = (clientWidth - 5) + "px";
                 var left = clientWidth + "px";
-                $("#" + new_id).css("width", width);
+//                $("#" + new_id).css("width", width);
                 $("#" + new_id).css("left", left);
             });
             id++;
@@ -190,13 +243,14 @@
                 r = $.parseJSON(res);
                 $("#main").prepend(
                         "<div id=" + id + " class='pic_1'><span class='pic_area'>" +
-                        "<p class='discuss'>" + r.data1[0].value + "</p>" +
                         "<img src=" + r.data1[0].url + " class='pic'/></span>" +
-                        "<span class='comment_header'>评论区域</span></div>");
+                        "<span class='discuss'><p style='margin: 5px'>" + r.data1[0].value + "</p></span>" +
+                        "<span class='comment_header'><p style='margin: 5px'>" + r.pic_comment1.length + "条评论</p></span></div>");
                 for (var i = 0; i < r.pic_comment1.length; i++) {
                     $("#" + id).append(
-                            "<span style='float: left;clear: both;width: 100%;position: relative;'>" +
+                            "<span class='comment_area'>" +
                             "<img src='a.jpg' class='comment_pic'/>" +
+                            "<p class='comment_floor'>#" + i + "</p>" +
                             "<p class='comment_name'>" + r.pic_comment1[i].comment_person + "</p>" +
                             "<p class='comment_detail'>" + r.pic_comment1[i].comment_detail + "</p></span>"
                     );
@@ -204,15 +258,16 @@
                 id++;
                 $("#main").prepend(
                         "<div id=" + id + " class='pic_2'><span class='pic_area'>" +
-                        "<p class='discuss'>" + r.data2[0].value + "</p>" +
                         "<img src=" + r.data2[0].url + " class='pic'/></span>" +
-                        "<span class='comment_header'>评论区域</span></div>");
-                for (var i = 0; i < r.pic_comment1.length; i++) {
+                        "<span class='discuss'><p style='margin: 5px'>" + r.data2[0].value + "</p></span>" +
+                        "<span class='comment_header'><p style='margin: 5px'>" + r.pic_comment1.length + "条评论</p></span></div>");
+                for (var i = 0; i < r.pic_comment2.length; i++) {
                     $("#" + id).append(
                             "<span class='comment_area'>" +
                             "<img src='a.jpg' class='comment_pic'/>" +
-                            "<p class='comment_name'>" + r.pic_comment1[i].comment_person + "</p>" +
-                            "<p class='comment_detail'>" + r.pic_comment1[i].comment_detail + "</p></span>"
+                            "<p class='comment_name'>" + r.pic_comment2[i].comment_person + "</p>" +
+                            "<p class='comment_floor'>#" + i + "</p>" +
+                            "<p class='comment_detail'>" + r.pic_comment2[i].comment_detail + "</p></span>"
                     );
                 }
                 set_window();
@@ -220,7 +275,7 @@
         }
 
         function set_window() {
-            var clientWidth = document.documentElement.clientWidth;
+            var clientWidth = window.screen.availWidth;
             var left = (clientWidth - 160) + "px";
             $("#star_1").css("margin-left", "30px");
             $("#star_2").css("margin-left", left);
@@ -231,11 +286,11 @@
         }
 
         function reset_demo() {
-            var clientWidth = document.documentElement.clientWidth;
+            var clientWidth = window.screen.availWidth;
             var left = clientWidth + "px";
             var width = (clientWidth - 5) + "px";
-            $(".pic_1").css("width", width);
-            $(".pic_2").css("width", width);
+//            $(".pic_1").css("width", width);
+//            $(".pic_2").css("width", width);
             $(".pic_2").css("left", left);
         }
 
@@ -289,7 +344,7 @@
         }
     </script>
 </head>
-<body id="body" style="background-color: #eeeeee;padding: 0;margin: 0;" onload="get_data()">
+<body id="body" class="body" onload="get_data()">
 
 <!--<div class="part_main_header">-->
 
@@ -302,14 +357,14 @@
 
 <!--</div>-->
 <div id="header" class="header">
-    <div style="width: 100%;height: 45px;float: left;clear: both;position: relative;line-height: 45px;color: #ffffff;text-align: center;">
+    <div class="title">
         百科全书
     </div>
-    <div id="star" style="position: absolute;top: 0;left: 0;width: 100%;height:45px;display: none;">
+    <div id="star" class="star">
         <img id="star_1" src="white_x.png" style="width: 45px;clear: both;float: left;"/>
         <img id="star_2" src="white_x.png" style="width: 45px;float: left;"/>
     </div>
-    <div id="more" style="width: 45px;height:45px;position: absolute;right:0;top:0;line-height: 35px;color: #ffffff;">
+    <div id="more" class="more">
         ...
     </div>
 </div>
