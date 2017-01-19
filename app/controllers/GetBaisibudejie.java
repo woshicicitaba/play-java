@@ -2,6 +2,7 @@ package controllers;
 
 import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 import models.dataBase;
+import models.picData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,22 +18,6 @@ import java.util.List;
  * Created by admin on 2016-10-10.
  */
 public class GetBaisibudejie extends Controller {
-
-//    public  play.mvc.Result test_w() {
-//        WebDriver driver = new JBrowserDriver();
-//        String url="http://www.budejie.com/pic";
-//        driver.get(url);
-//        String s = driver.getPageSource();
-//        Document document = Jsoup.parse(s);
-//        for (Element table : document.select(".newlist_list_content").select("table")) {
-//            StringBuilder builder = new StringBuilder();
-//            builder.append(table.select("td[class='gsmc']").text());
-//            System.out.println(builder);
-//        }
-//        driver.close();
-//        play.Logger.info(s);
-//        return ok();
-//    }
 
     public play.mvc.Result getWord() throws IOException {
         int page_num = 1;//
@@ -85,12 +70,20 @@ public class GetBaisibudejie extends Controller {
 
     //数据库插值
     public void insertPicNews(String Date, String Id, String Alt) {
-        dataBase db = new dataBase();
-        db.setType("Baishibudejie");
-        db.setArrt1(Date);
-        db.setArrt2(Alt);
-        db.setArrt3(Id);
-        db.insert();
+//        dataBase db = new dataBase();
+//        db.setType("Baishibudejie");
+//        db.setArrt1(Date);
+//        db.setArrt2(Alt);
+//        db.setArrt3(Id);
+//        db.insert();
+        picData date_pic = new picData();
+        date_pic.setType_pic("Baishibudejie");
+        date_pic.setValue(Date);
+        date_pic.setUrl(Id);
+        date_pic.setSource_id(Id);
+        date_pic.setLike_num((long) 0);
+        date_pic.setLike_num((long) 0);
+        date_pic.insert();
     }
 
     //判断是否存在
