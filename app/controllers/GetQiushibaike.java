@@ -92,7 +92,8 @@ public class GetQiushibaike extends Controller {
 
     //判断是否已经存在
     public String judgeExist(String Id) {
-        List<dataBase> db = dataBase.find.where().ilike("arrt3", Id).findList();
+//        List<dataBase> db = dataBase.find.where().ilike("arrt3", Id).findList();
+        List<picData> db=picData.find.where().ilike("source_id",Id).findList();
         if (db.isEmpty()) {
             return ("Has_None");
         } else {

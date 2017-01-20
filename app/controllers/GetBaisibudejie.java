@@ -2,6 +2,7 @@ package controllers;
 
 import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 import models.dataBase;
+import models.dataComment;
 import models.picData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,40 +28,38 @@ public class GetBaisibudejie extends Controller {
             play.Logger.info(String.valueOf(url));
 
             Document doc = Jsoup.connect(url).header("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2").get();
-            org.jsoup.select.Elements elements1 = doc.select("div.j-r-list-c");
+            org.jsoup.select.Elements elements1 = doc.select("div.j-r-list");
 
             for (org.jsoup.nodes.Element e : elements1) {
-//                String id = String.valueOf(e.id());
-                String ppData = String.valueOf(e.select("div.j-r-list-c-desc").text());
-                org.jsoup.select.Elements elements2 = e.getElementsByClass("j-r-list-c-img");
-                org.jsoup.select.Elements elements3 = elements2.select("img");
-                String id = elements3.attr("data-original");
+                org.jsoup.select.Elements e_img_data = e.getElementsByClass("j-r-list-c-img");
+                for (org.jsoup.nodes.Element e_i_d : e_img_data) {
+                    org.jsoup.select.Elements e_a = e_i_d.select("a");
+                    String a_link = e_a.attr("href");
+                    org.jsoup.select.Elements img = e_i_d.select("img");
+                    String img_url = img.attr("data-original");
+                    String img_title = img.attr("title");
 
-                play.Logger.info("elements4:" + e);
-                org.jsoup.select.Elements elements4 = e.select("a.j-list-comment");
-//                Element links = elements4.select("a").first();
-//                String hrf = links.attr("href");//获取评论
-//                play.Logger.info("elements4:" + elements4);
-//                play.Logger.info("hrf:" + links);
+//                    play.Logger.info(a_link);
+//                    play.Logger.info(img_url);
+//                    play.Logger.info(img_title);
+//                    play.Logger.info(String.valueOf(i));
+//                    i++;
 
-                String[] strarray = id.split("/");
-                String ppurl = strarray[strarray.length - 1];
+                    String[] strarray = img_url.split("/");
+                    String pSrc = strarray[strarray.length - 1];
 
-//                play.Logger.info("data:"+ppData);
-//                play.Logger.info("id:"+id);
-//                play.Logger.info("url:"+ppurl);
-
-                if ("Has_None" == judgeExist(id)) {
-                    if (ppurl != null) {
-                        i++;
-                        downLoadFromUrl(id, ppurl, "E:/im");
-
-                        insertPicNews(ppData, id, ppurl);
+                    if ("Has_None" == judgeExist(a_link)) {
+                        if (img_url != null) {
+                            i++;
+                            downLoadFromUrl(img_url, pSrc, "E:/IdeaProjects/play-java/public/picc");
+                            insertPicNews(a_link, pSrc, img_title);
+                            get_comment(a_link, a_link);
+                        } else {
+                            play.Logger.info("ppurl is null" + img_url);
+                        }
                     } else {
-                        play.Logger.info("ppurl is null" + ppurl);
+//                        play.Logger.info("已存在" + img_url);
                     }
-                } else {
-                    play.Logger.info("已存在" + ppurl);
                 }
             }
             page_num++;
@@ -69,18 +68,12 @@ public class GetBaisibudejie extends Controller {
     }
 
     //数据库插值
-    public void insertPicNews(String Date, String Id, String Alt) {
-//        dataBase db = new dataBase();
-//        db.setType("Baishibudejie");
-//        db.setArrt1(Date);
-//        db.setArrt2(Alt);
-//        db.setArrt3(Id);
-//        db.insert();
+    public void insertPicNews(String Date, String url, String title) {
         picData date_pic = new picData();
         date_pic.setType_pic("Baishibudejie");
-        date_pic.setValue(Date);
-        date_pic.setUrl(Id);
-        date_pic.setSource_id(Id);
+        date_pic.setValue(title);
+        date_pic.setUrl(url);
+        date_pic.setSource_id(Date);
         date_pic.setLike_num((long) 0);
         date_pic.setLike_num((long) 0);
         date_pic.insert();
@@ -88,7 +81,7 @@ public class GetBaisibudejie extends Controller {
 
     //判断是否存在
     public String judgeExist(String Id) {
-        List<dataBase> db = dataBase.find.where().ilike("arrt3", Id).findList();
+        List<picData> db = picData.find.where().ilike("source_id", Id).findList();
         if (db.isEmpty()) {
             return ("Has_None");
         } else {
@@ -118,7 +111,6 @@ public class GetBaisibudejie extends Controller {
         if (inputStream != null) {
             inputStream.close();
         }
-        //   play.Logger.info("info:" + url + " download success");
     }
 
     public static byte[] readInputStream(InputStream inputStream) throws IOException {
@@ -131,4 +123,43 @@ public class GetBaisibudejie extends Controller {
         bos.close();
         return bos.toByteArray();
     }
+
+    //未完成
+    public void get_comment(String link, String id) throws IOException {
+        String real_id = id;
+        String real_link = "http://www.budejie.com" + link;
+        play.Logger.info("real_link:" + real_link);
+
+//        Document doc = Jsoup.connect(real_link).timeout(3000).get();
+        Document doc = Jsoup.connect(real_link)
+                .data("query", "Java")
+                .userAgent("Mozilla")
+                .cookie("auth", "token")
+                .timeout(100000)
+                .post();
+        org.jsoup.select.Elements comment_detail = doc.select("div.c-comment-list");
+        org.jsoup.select.Elements m_list3 = comment_detail.select("div.m-list3");
+        org.jsoup.select.Elements txt = m_list3.select("ul.f-cb");
+        play.Logger.info("replay2:" + txt);
+
+        for (org.jsoup.nodes.Element e : txt) {
+            org.jsoup.select.Elements e_name = e.select("a");
+            String name = e_name.text();
+            org.jsoup.select.Elements e_detail = e.select("div.g-mnc1");
+            String detail = e_detail.text();
+
+            play.Logger.info("person:" + name);
+            play.Logger.info("comment" + detail);
+//            String comment = String.valueOf(e.select("span.body").text());
+//            String person = String.valueOf(e.select("a").text());
+//            dataComment dataComment = new dataComment();
+//            dataComment.setComment_detail(comment);
+//            dataComment.setComment_header(real_id);
+//            dataComment.setComment_person(person);
+//            dataComment.insert();
+//            play.Logger.info("person:" + person);
+//            play.Logger.info("comment" + comment);
+        }
+    }
+
 }
