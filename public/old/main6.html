@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
           name="viewport">
-    <title>逗B拯救世界</title>
+    <title></title>
     <script src="z.js"></script>
     <script src="z-fx.js"></script>
     <script src="ease.min.js"></script>
@@ -47,14 +47,17 @@
         }
 
         .more_point {
-            width: 60px;
-            height: 60px;
-            position: absolute;
+            width: 55px;
+            height: 55px;
+            position: fixed;
             right: 0;
-            top: 0;
+            top: 20px;
             line-height: 35px;
             color: #ffffff;
             font-size: 18pt;
+            border-radius: 50%;
+            z-index: 90;
+            background-color: #333333;
         }
 
         .header {
@@ -63,7 +66,7 @@
             float: left;
             clear: both;
             background-color: #000000;
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             z-index: 100;
@@ -105,7 +108,6 @@
             z-index: 10;
             font-size: 16px;
             font-family: '微软雅黑';
-            top: 55px;
         }
 
         .like {
@@ -283,11 +285,11 @@
             height: 34px;
             pointer-events: none;
             transition: 0.1s;
-            cursor: pointer;
+            /*cursor: pointer;*/
             background: none;
             border: none;
-            margin: 15px 0 0 0;
-            padding: 0;
+            left: 11px;
+            top: 11px;
         }
 
         .menu-icon-wrapper.scaled {
@@ -351,10 +353,10 @@
         }
 
         function add_comment(click_button) {
-//            var click_b = click_button;
-//            console.info(click_b);
-//            discuss_button(click_button);
-            var click_id = click_button.id;
+            var click_b = click_button;
+            console.info(click_b);
+            discuss_button(click_b);
+            var click_id = click_b.id;
             var new_id = click_id.substring(0, click_id.length - 5);
 //            console.info(new_id);
             var comment_id = new_id + '_c';
@@ -413,29 +415,25 @@
                 $("#" + id).css("background-position", "left");
                 $("#" + id).attr("rel", "close");
             }
-            add_comment(e);
         }
     </script>
 </head>
 <body id="body" class="body" onload="add()">
-<div id="header" class="header">
-    <div class="title">
-        逗B拯救世界
-    </div>
-    <div id="more" class="more_point" onclick="cli()">
-        <div class="menu-icon-wrapper">
-            <!-- SVG element with paths -->
-            <svg width="1000px" height="1000px">
-                <path id="pathA"
-                      d="M 300 400 L 700 400 C 900 400 900 750 600 850 A 400 400 0 0 1 200 200 L 800 800"></path>
-                <path id="pathB" d="M 300 500 L 700 500"></path>
-                <path id="pathC"
-                      d="M 700 600 L 300 600 C 100 600 100 200 400 150 A 400 380 0 1 1 200 800 L 800 200"></path>
-            </svg>
-            <!-- Trigger to perform the animations -->
-        </div>
+
+<div id="more" class="more_point" onclick="cli()">
+    <div class="menu-icon-wrapper">
+        <!-- SVG element with paths -->
+        <svg width="1000px" height="1000px">
+            <path id="pathA"
+                  d="M 300 400 L 700 400 C 900 400 900 750 600 850 A 400 400 0 0 1 200 200 L 800 800"></path>
+            <path id="pathB" d="M 300 500 L 700 500"></path>
+            <path id="pathC"
+                  d="M 700 600 L 300 600 C 100 600 100 200 400 150 A 400 380 0 1 1 200 800 L 800 200"></path>
+        </svg>
+        <!-- Trigger to perform the animations -->
     </div>
 </div>
+
 <div id="main" class="main">
     <!--<div id="1" class="pic_area">-->
     <!--<img src='a.jpg' class="pic"/>-->
