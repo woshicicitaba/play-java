@@ -128,7 +128,7 @@ public class New_Controller extends Controller {
         map.put("data1", pc_1);
         for (picData pp : pc_1) {
             String source = String.valueOf(pp.getSource_id());
-            List<dataComment> dataComments = dataComment.find.where().like("comment_header", source).findList();
+            List<dataComment> dataComments = dataComment.find.where().like("comment_header", source).orderBy("id desc").findList();
             map.put("pic_comment1", dataComments);
         }
 
