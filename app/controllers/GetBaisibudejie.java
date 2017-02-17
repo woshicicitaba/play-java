@@ -69,10 +69,11 @@ public class GetBaisibudejie extends Controller {
 
     //数据库插值
     public void insertPicNews(String Date, String url, String title) {
+        String real_url = "picc/" + url;
         picData date_pic = new picData();
         date_pic.setType_pic("Baishibudejie");
         date_pic.setValue(title);
-        date_pic.setUrl(url);
+        date_pic.setUrl(real_url);
         date_pic.setSource_id(Date);
         date_pic.setLike_num((long) 0);
         date_pic.setLike_num((long) 0);
@@ -124,42 +125,32 @@ public class GetBaisibudejie extends Controller {
         return bos.toByteArray();
     }
 
-    //未完成
+    //未测试
     public void get_comment(String link, String id) throws IOException {
         String real_id = id;
         String real_link = "http://www.budejie.com" + link;
-        play.Logger.info("real_link:" + real_link);
+//        play.Logger.info("real_link:" + real_link);
 
-//        Document doc = Jsoup.connect(real_link).timeout(3000).get();
-        Document doc = Jsoup.connect(real_link)
-                .data("query", "Java")
-                .userAgent("Mozilla")
-                .cookie("auth", "token")
-                .timeout(100000)
-                .post();
-        org.jsoup.select.Elements comment_detail = doc.select("div.c-comment-list");
-        org.jsoup.select.Elements m_list3 = comment_detail.select("div.m-list3");
-        org.jsoup.select.Elements txt = m_list3.select("ul.f-cb");
-        play.Logger.info("replay2:" + txt);
+        WebDriver driver = new JBrowserDriver();
+        driver.get(real_link);
+        String s = driver.getPageSource();
+        Document doc = Jsoup.parse(s);
+//        play.Logger.info(String.valueOf(doc));
 
-        for (org.jsoup.nodes.Element e : txt) {
-            org.jsoup.select.Elements e_name = e.select("a");
-            String name = e_name.text();
-            org.jsoup.select.Elements e_detail = e.select("div.g-mnc1");
-            String detail = e_detail.text();
+        org.jsoup.select.Elements comment_detail = doc.select("div.g-mnc1");
+        for (org.jsoup.nodes.Element e : comment_detail) {
+            org.jsoup.select.Elements div_p = e.select("p");
+//            play.Logger.info(String.valueOf(div_p.text()));
 
-            play.Logger.info("person:" + name);
-            play.Logger.info("comment" + detail);
-//            String comment = String.valueOf(e.select("span.body").text());
-//            String person = String.valueOf(e.select("a").text());
-//            dataComment dataComment = new dataComment();
-//            dataComment.setComment_detail(comment);
-//            dataComment.setComment_header(real_id);
-//            dataComment.setComment_person(person);
-//            dataComment.insert();
-//            play.Logger.info("person:" + person);
-//            play.Logger.info("comment" + comment);
+            String comment = div_p.text();
+            if (comment == null) {
+                dataComment dataComment = new dataComment();
+                dataComment.setComment_detail(comment);
+                dataComment.setComment_header(real_id);
+                dataComment.insert();
+            }
         }
+
     }
 
 }

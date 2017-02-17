@@ -152,8 +152,8 @@ public class GetQiushibaike extends Controller {
             dataComment.setComment_header(real_id);
             dataComment.setComment_person(person);
             dataComment.insert();
-            play.Logger.info("person:" + person);
-            play.Logger.info("comment" + comment);
+//            play.Logger.info("person:" + person);
+//            play.Logger.info("comment" + comment);
         }
     }
 

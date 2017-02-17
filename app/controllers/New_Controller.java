@@ -118,7 +118,7 @@ public class New_Controller extends Controller {
         }
     }
 
-    //老版添加评论
+    //老版展示评论
     public play.mvc.Result returnOldComment() throws JsonProcessingException {
         Map<String, String> getData = form.bindFromRequest().data();
         String id = getData.get("id");
@@ -128,7 +128,7 @@ public class New_Controller extends Controller {
         map.put("data1", pc_1);
         for (picData pp : pc_1) {
             String source = String.valueOf(pp.getSource_id());
-            List<dataComment> dataComments = dataComment.find.where().like("comment_header", source).orderBy("id desc").findList();
+            List<dataComment> dataComments = dataComment.find.where().like("comment_header", source).orderBy("id").findList();
             map.put("pic_comment1", dataComments);
         }
 
@@ -138,4 +138,37 @@ public class New_Controller extends Controller {
             return badRequest();
         }
     }
+
+    //新增评论
+    public play.mvc.Result InsertComment() throws JsonProcessingException {
+
+        Map<String, String> getData = form.bindFromRequest().data();
+        String id = getData.get("id");
+        String value = getData.get("value");
+        String source = null;
+
+        List<picData> picData_id = picData.find.where().like("id", id).orderBy("id desc").findList();
+        for (picData pd_id : picData_id) {
+            source = String.valueOf(pd_id.getSource_id());
+        }
+
+        dataComment dataComment = new dataComment();
+        dataComment.setComment_detail(value);
+        dataComment.setComment_header(source);
+        dataComment.insert();//插入数据库
+
+        List<dataComment> dataComments = dataComment.find.where().like("comment_header", source).orderBy("id desc").findList();
+        int length = dataComments.size();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", id);
+        map.put("length", length);
+
+        try {
+            return ok(Json.mapper().writeValueAsString(map));
+        } catch (JsonProcessingException e) {
+            return badRequest();
+        }
+    }
+
 }
