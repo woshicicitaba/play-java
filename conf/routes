@@ -17,7 +17,7 @@ POST        /get_Load_Data          controllers.New_Controller.returnLoad
 
 POST        /get_Old_Data           controllers.New_Controller.returnOldData
 POST        /get_Old_Comment        controllers.New_Controller.returnOldComment
-
+POST        /submit_comment         controllers.New_Controller.InsertComment
 
 POST        /json                   controllers.UserController.json
 
