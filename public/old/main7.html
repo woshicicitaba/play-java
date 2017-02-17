@@ -272,58 +272,17 @@
             font-size: 11pt;
             color: #353535;
         }
-
-        /*svg标签*/
-        .menu-icon-wrapper {
-            position: relative;
-            display: inline-block;
-            width: 34px;
-            height: 34px;
-            pointer-events: none;
-            transition: 0.1s;
-            cursor: pointer;
-            background: none;
-            border: none;
-            margin: 15px 0 0 0;
-            padding: 0;
-        }
-
-        .menu-icon-wrapper.scaled {
-            -webkit-transform: scale(0.5);
-            -ms-transform: scale(0.5);
-            transform: scale(0.5);
-        }
-
-        .menu-icon-wrapper svg {
-            position: absolute;
-            top: -33px;
-            left: -33px;
-            -webkit-transform: scale(0.1);
-            -ms-transform: scale(0.1);
-            transform: scale(0.1);
-            -webkit-transform-origin: 0 0;
-            -ms-transform-origin: 0 0;
-            transform-origin: 0 0;
-        }
-
-        .menu-icon-wrapper svg path {
-            stroke: #fff;
-            stroke-width: 30px;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            fill: transparent;
-        }
     </style>
 
     <script language="javascript">
         var order = 1;
         var num = 10;
         var r, rr;
-        var jsonData = {};
         var height = 0;
 
         function add() {
 
+            var jsonData = {};
             jsonData.order = order;
             jsonData.num = num;
             $.post('/get_Old_Data', jsonData, function (res) {
@@ -349,16 +308,19 @@
         }
 
         function add_comment(click_button) {
-//            var click_b = click_button;
-//            console.info(click_b);
-//            discuss_button(click_button);
             var click_id = click_button.id;
             var new_id = click_id.substring(0, click_id.length - 5);
-//            console.info(new_id);
             var comment_id = new_id + '_c';
             var comment_id_p = new_id + '_cp';
-            $("#" + new_id).append("<div id=" + comment_id_p + "  class='comment'><div id=" + comment_id + " class='comment_header'><span style='float: left;clear: both;width: 100%;'>评论区域</span></div></div>");
-
+            var textarea_id = new_id + '_textarea';
+            var button_id = new_id + '_buttonid';
+            $("#" + new_id).append("<div id=" + comment_id_p + "  class='comment'>" +
+                    "<span style='float: left;clear: both;width: 100%;'>评论区域</span>" +
+                    "<span style='float: left;clear: both;width: 100%;'>" +
+                    "<textarea onfocus='textarea_onfocus(this)' onblur='textarea_onblur(this)' id=" + textarea_id + "  style=' resize: none;float: left;margin: 5px 5px 5px 0;width: 60%;height: 45px;border: 1px solid #000000;'>您想说点嘛</textarea>" +
+                    "<div id=" + button_id + "  onclick='submit_comment(this)'  style='float: left;margin: 5px;width: 45px;height: 45px;border: 1px solid red'>提交</div>" +
+                    "<div id=" + comment_id + " class='comment_header'>" +
+                    "</span></div></div>");
             var jsonComment = {};
             jsonComment.id = new_id;
             $.post('/get_Old_Comment', jsonComment, function (res) {
@@ -368,9 +330,8 @@
                     var id = rr.pic_comment1[i].id + 'cd';
                     $("#" + comment_id).append("<div id=" + id + " class='comment_area'>" +
                             "<img src='a.jpg' class='comment_pic'/>" +
-                            "<p class='comment_name'>" + rr.pic_comment1[i].comment_person + "</p>" +
-                            "<p class='comment_floor'>#" + (i + 1) + "</p>" +
-                            "<p class='comment_detail'>" + rr.pic_comment1[i].comment_detail + "</p></div>");
+                            "<p class='comment_detail'>" + rr.pic_comment1[i].comment_detail + "</p>" +
+                            "<p class='comment_floor'>#" + (i + 1) + "</p></div>");
                     var t = "$('#" + id + "').animate({left: '0'},'fast','swing')";
                     setTimeout(t, time);
                 }//for
@@ -400,8 +361,7 @@
             var rel = $("#" + id).attr("rel");
             var num = $("#" + id).attr("num");
             console.info(num);
-//            console.info(rel);
-            if (rel == "close"&&"no"==num) {
+            if (rel == "close" && "no" == num) {
                 console.info(rel);
                 $("#" + id).addClass("talkAnimation");
                 $("#" + id).css("background-position", "right");
@@ -419,7 +379,7 @@
                 var comment_id_p = new_id + '_cp';
                 $("#" + comment_id_p).css("height", "0");
 
-            } else if (rel == "close"&&"no"!=num) {
+            } else if (rel == "close" && "no" != num) {
                 $("#" + id).addClass("talkAnimation");
                 $("#" + id).css("background-position", "right");
                 $("#" + id).attr("rel", "open");
@@ -429,118 +389,47 @@
                 var comment_id_p = new_id + '_cp';
                 $("#" + comment_id_p).css("height", "auto");
             }
-//            add_comment(e);
+        }
+
+        function textarea_onfocus(e) {
+//            console.info(e.value);
+            if (e.value == '您想说点嘛') {
+                e.value = ''
+            }
+        }
+
+        function textarea_onblur(e) {
+//            console.info(e);
+            if (e.value == '') {
+                e.value = '您想说点嘛'
+            }
+        }
+
+        function submit_comment(e) {
+            var e_id = e.id.split("_");
+            var comment_id = e_id[0] + "_c";
+            var text_id = e_id[0] + "_textarea";
+            var value = $("#" + text_id).val();
+            if (value == '您想说点嘛') {
+                alert("啊哦，你咋啥都没说啊~")
+            } else {
+                var jsonData = {};
+                jsonData.id = e_id[0];
+                jsonData.value = value;
+                $.post('/submit_comment', jsonData, function (res) {
+                    // process response
+                    r = $.parseJSON(res);
+                    $("#" + comment_id).prepend("<div id=" + e.id + " class='comment_area' style='left:0'>" +
+                            "<img src='a.jpg' class='comment_pic'/>" +
+                            "<p class='comment_detail'>" + value + "</p>" +
+                            "<p class='comment_floor'>#" + r.length + "</p></div>")
+                })
+            }
         }
     </script>
 </head>
 <body id="body" class="body" onload="add()">
 <div id="main" class="main">
-    <!--<div id="1" class="pic_area">-->
-    <!--<img src='a.jpg' class="pic"/>-->
-
-    <!--<p class="discuss">啊啊啊啊啊顶顶顶</p>-->
-    <!--<span class="like">喜欢</span>-->
-    <!--<span class="dislike">不喜欢</span>-->
-    <!--<span class="talk">评论</span>-->
-
-    <!--<div id="1_c" class="comment_header" style="height: 0;overflow: hidden;">-->
-    <!--<span style="float: left;clear: both;width: 100%;">评论区域</span>-->
-    <!--<div class="comment_area">-->
-    <!--<img src='a.jpg' class="comment_pic"/>-->
-
-    <!--<p class="comment_name">aaaaaaaa</p>-->
-
-    <!--<p class='comment_floor'>#1</p>-->
-
-    <!--<p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>-->
-    <!--</div>-->
-    <!--<div class="comment_area">-->
-    <!--<img src='a.jpg' class="comment_pic"/>-->
-
-    <!--<p class="comment_name">aaaaaaaa</p>-->
-
-    <!--<p class='comment_floor'>#1</p>-->
-
-    <!--<p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>-->
-    <!--</div>-->
-    <!--<div class="comment_area">-->
-    <!--<img src='a.jpg' class="comment_pic"/>-->
-
-    <!--<p class="comment_name">aaaaaaaa</p>-->
-
-    <!--<p class='comment_floor'>#1</p>-->
-
-    <!--<p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>-->
-    <!--</div>-->
-    <!--<div class="comment_area">-->
-    <!--<img src='a.jpg' class="comment_pic"/>-->
-
-    <!--<p class="comment_name">aaaaaaaa</p>-->
-
-    <!--<p class='comment_floor'>#1</p>-->
-
-    <!--<p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div id="2" class="pic_area">-->
-    <!--<img src='a.jpg' class="pic"/>-->
-
-    <!--<p class="discuss">啊啊啊啊啊顶顶顶</p>-->
-    <!--<span style="width: 45px;height: 45px;float: left;clear: both;background-color: #f9f9f9;margin: 5px;">喜欢</span>-->
-    <!--<span style="width: 45px;height: 45px;float: left;background-color: #f9f9f9;margin: 5px;">不喜欢</span>-->
-    <!--<span style="width: 45px;height: 45px;float: right;background-color: #f9f9f9;margin: 5px;">评论</span>-->
-
-    <!--<div id="2_c" class="comment_header" style="height: 0;overflow: hidden;">-->
-    <!--<span style="float: left;clear: both;width: 100%;">评论区域</span>-->
-    <!--<div class="comment_area">-->
-    <!--<img src='a.jpg' class="comment_pic"/>-->
-
-    <!--<p class="comment_name">aaaaaaaa</p>-->
-
-    <!--<p class='comment_floor'>#1</p>-->
-
-    <!--<p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>-->
-    <!--</div>-->
-    <!--<div class="comment_area">-->
-    <!--<img src='a.jpg' class="comment_pic"/>-->
-
-    <!--<p class="comment_name">aaaaaaaa</p>-->
-
-    <!--<p class='comment_floor'>#1</p>-->
-
-    <!--<p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>-->
-    <!--</div>-->
-    <!--<div class="comment_area">-->
-    <!--<img src='a.jpg' class="comment_pic"/>-->
-
-    <!--<p class="comment_name">aaaaaaaa</p>-->
-
-    <!--<p class='comment_floor'>#1</p>-->
-
-    <!--<p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>-->
-    <!--</div>-->
-    <!--<div class="comment_area">-->
-    <!--<img src='a.jpg' class="comment_pic"/>-->
-
-    <!--<p class="comment_name">aaaaaaaa</p>-->
-
-    <!--<p class='comment_floor'>#1</p>-->
-
-    <!--<p class="comment_detail">aaaaaaadsdsdsaaaaaaa</p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div id="3" class="pic_area">-->
-    <!--<img src='a.jpg' class="pic"/>-->
-
-    <!--<p class="discuss">啊啊啊啊啊顶顶顶</p>-->
-    <!--<span style="width: 45px;height: 45px;float: left;clear: both;background-color: #f9f9f9;margin: 5px;">喜欢</span>-->
-    <!--<span style="width: 45px;height: 45px;float: left;background-color: #f9f9f9;margin: 5px;">不喜欢</span>-->
-    <!--<span style="width: 45px;height: 45px;float: right;background-color: #f9f9f9;margin: 5px;">评论</span>-->
-    <!--</div>-->
 </div>
 <div class="more">
     <div id="more_button" class="more_button" onclick="add()">
