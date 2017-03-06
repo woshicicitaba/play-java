@@ -1,27 +1,115 @@
 <!DOCTYPE html>
-<html lang="zh-cmn-Hans">
+<html lang="zh-cmn-Hans" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <script src="vue.js"></script>
+    <script src="vue1.js"></script>
+    <script src="z.js"></script>
     <link rel="stylesheet" href="weui.css"/>
-</head>
-<body style="font-family:'-apple-system-font,Helvetica Neue,Helvetica,sans-serif';background-color: #f8f8f8">
-<div style="margin-bottom: 20px;background-color: #ffffff;">
-    <!--标题+图片-->
-    <article class="weui-article" style="padding-bottom: 0;">
-        <section style="margin-bottom: 0">
-            <p>中奖不要撸了。中奖不要撸了。中奖不要撸了。中奖不要撸了。中奖不要撸了。</p>
+    <style type="text/css">
+        /*like相关*/
+        .heart {
+            width: 50px;
+            height: 50px;
+            float: left;
+            cursor: pointer;
+            background: url('like.png') no-repeat left;
+            background-size: 1450px;
+        }
 
-            <p style="margin: 0"><img src="A18B191.jpg"/></p>
-            <!--自己加的按钮-->
-            <div style="width: 100%;height: 50px;">
-                <span style="width: 50px;height: 50px;float: left;cursor: pointer;background: url('like.png') no-repeat left;background-size: 1450px;"></span>
-                <span style="width: 50px;height: 50px;float: right;cursor: pointer;background: url('discuss.png') no-repeat left;background-size: 1450px;"></span>
-            </div>
-            <!--自己加的按钮结束-->
-        </section>
-    </article>
+        @-webkit-keyframes heartBlast {
+            0% {
+                background-position: left;
+            }
+            100% {
+                background-position: right;
+            }
+        }
+
+        @keyframes heartBlast {
+            0% {
+                background-position: left;
+            }
+            100% {
+                background-position: right;
+            }
+        }
+
+        .heartAnimation {
+            -webkit-animation-name: heartBlast;
+            animation-name: heartBlast;
+            -webkit-animation-duration: .8s;
+            animation-duration: .8s;
+            -webkit-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+            -webkit-animation-timing-function: steps(28);
+            animation-timing-function: steps(28);
+            background-position: right;
+        }
+
+        /*like相关结束*/
+        /*评论相关*/
+        .talk {
+            width: 50px;
+            height: 50px;
+            float: right;
+            cursor: pointer;
+            background: url('discuss.png') no-repeat left;
+            background-size: 1450px;
+        }
+
+        @-webkit-keyframes talkBlast {
+            0% {
+                background-position: left;
+            }
+            100% {
+                background-position: right;
+            }
+        }
+
+        @keyframes talkBlast {
+            0% {
+                background-position: left;
+            }
+            100% {
+                background-position: right;
+            }
+        }
+
+        .talkAnimation {
+            -webkit-animation-name: talkBlast;
+            animation-name: talkBlast;
+            -webkit-animation-duration: .8s;
+            animation-duration: .8s;
+            -webkit-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+            -webkit-animation-timing-function: steps(28);
+            animation-timing-function: steps(28);
+            background-position: right;
+        }
+
+        /*评论相关结束*/
+    </style>
+</head>
+<body onload="load()" id="app"
+      style="font-family:'-apple-system-font,Helvetica Neue,Helvetica,sans-serif';background-color: #f8f8f8">
+<div style="margin-bottom: 20px;background-color: #ffffff;" v-for="i in data_main"/>
+<!--标题+图片-->
+<article class="weui-article" style="padding-bottom: 0;">
+    <section style="margin-bottom: 0">
+        <p>{{i.value}}</p>
+
+        <p style="margin: 0"><img v-bind:src="i.url" src=""/></p>
+        <!--自己加的按钮-->
+        <div style="width: 100%;height: 50px;">
+            <span @click="heart($index)" v-bind:class="{'heartAnimation':i.class_heart}" class="heart"></span>
+            <span @click="add($index)" v-bind:class="{'talkAnimation':i.show_commit}" class="talk"></span>
+        </div>
+        <!--自己加的按钮结束-->
+    </section>
+</article>
+<!--评论区域-->
+<div v-show="i.show_commit">
     <!--新增评论区-->
     <div class="weui-cells" style="margin-top: 0;">
         <div class="weui-cell">
@@ -30,19 +118,24 @@
             </div>
         </div>
     </div>
+    <!--评论区域-->
     <!--评论展示区-->
-    <div class="weui-panel__bd">
+    <div class="weui-panel__bd" id="commit_old" v-for="ii in i.commit">
         <a class="weui-media-box weui-media-box_appmsg">
             <div class="weui-media-box__hd">
-                <img class="weui-media-box__thumb" src="index.png" alt="">
+                <img  class="weui-media-box__thumb"  src="a.jpg"/>
             </div>
             <div class="weui-media-box__bd">
-                <h4 class="weui-media-box__title">热心肠的网友说</h4>
+                <h4 class="weui-media-box__title">{{ii.comment_person}}</h4>
 
-                <p class="weui-media-box__desc">中奖不要撸了。中奖不要撸了。中奖不要撸了。中奖不要撸了。中奖不要撸了。</p>
+                <p class="weui-media-box__desc">{{ii.comment_detail}}</p>
             </div>
         </a>
     </div>
+    <!--评论展示区-->
+    <!--评论区域-->
 </div>
+</div>
+<script src="main.js"></script>
 </body>
 </html>
