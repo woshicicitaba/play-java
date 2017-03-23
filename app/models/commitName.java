@@ -1,5 +1,7 @@
 package models;
 
+import com.avaje.ebean.Model;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,9 +12,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "commit_name")
-public class commit_name {
+public class commitName {
     private Long id;
-    private String commit_name;
+    private String name;
+
+    public static Model.Finder<Long, commitName> find = new Model.Finder<>(commitName.class);
 
     @Id
     @Column(name = "id")
@@ -24,12 +28,12 @@ public class commit_name {
         this.id = id;
     }
 
-    @Column(name = "commit_name")
-    public String commit_name() {
-        return commit_name;
+    @Column(name = "name")
+    public String getName() {
+        return name;
     }
 
-    public void commit_name(String commit_name) {
-        this.commit_name = commit_name;
+    public void setName(String name) {
+        this.name = name;
     }
 }
