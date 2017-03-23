@@ -85,7 +85,7 @@ public class GetQiushibaike extends Controller {
         date_pic.setUrl(new_alt);
         date_pic.setSource_id(Id);
         date_pic.setLike_num((long) 0);
-        date_pic.setLike_num((long) 0);
+        date_pic.setDis_like_num((long) 0);
         date_pic.insert();
 
     }
@@ -93,7 +93,7 @@ public class GetQiushibaike extends Controller {
     //判断是否已经存在
     public String judgeExist(String Id) {
 //        List<dataBase> db = dataBase.find.where().ilike("arrt3", Id).findList();
-        List<picData> db=picData.find.where().ilike("source_id",Id).findList();
+        List<picData> db = picData.find.where().ilike("source_id", Id).findList();
         if (db.isEmpty()) {
             return ("Has_None");
         } else {
@@ -141,16 +141,23 @@ public class GetQiushibaike extends Controller {
         String real_id = id;
         String real_link = "http://www.qiushibaike.com" + link;
         Document doc = Jsoup.connect(real_link).header("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2").get();
-        org.jsoup.select.Elements elements1 = doc.select("div.replay");
+        org.jsoup.select.Elements elements1 = doc.select("div.comment-block");
         //play.Logger.info("replay:" + elements1);
 
         for (org.jsoup.nodes.Element e : elements1) {
-            String comment = String.valueOf(e.select("span.body").text());
-            String person = String.valueOf(e.select("a").text());
+            org.jsoup.select.Elements e_comment = e.select("div.replay");
+            String comment = null;
+            String person = null;
+            for (org.jsoup.nodes.Element e_detail : e_comment) {
+                comment = String.valueOf(e_detail.select("span.body").text());
+                person = String.valueOf(e_detail.select("a").attr("title"));
+            }
+            Long floor = Long.valueOf(e.select("div.report").text());
             dataComment dataComment = new dataComment();
             dataComment.setComment_detail(comment);
             dataComment.setComment_header(real_id);
             dataComment.setComment_person(person);
+            dataComment.setFloor(floor);
             dataComment.insert();
 //            play.Logger.info("person:" + person);
 //            play.Logger.info("comment" + comment);

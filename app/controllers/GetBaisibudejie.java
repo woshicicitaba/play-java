@@ -143,7 +143,7 @@ public class GetBaisibudejie extends Controller {
 //            play.Logger.info(String.valueOf(div_p.text()));
 
             String comment = div_p.text();
-            if (comment == null) {
+            if (comment != " ") {
                 dataComment dataComment = new dataComment();
                 dataComment.setComment_detail(comment);
                 dataComment.setComment_header(real_id);

@@ -107,7 +107,7 @@ public class New_Controller extends Controller {
         Map<String, String> getData = form.bindFromRequest().data();
         String order = getData.get("order");
         String num = getData.get("num");
-        List<picData> new_pc = picData.find.setFirstRow(Integer.parseInt(order)).setMaxRows(Integer.parseInt(num)).orderBy("id desc").findList();
+        List<picData> new_pc = picData.find.where().setFirstRow(Integer.parseInt(order)).setMaxRows(Integer.parseInt(num)).orderBy("id desc").findList();
         Map<String, Object> map = new HashMap<>();
         map.put("data", new_pc);
 
@@ -125,7 +125,7 @@ public class New_Controller extends Controller {
 
         Map<String, Object> map = new HashMap<>();
         List<picData> pc_1 = picData.find.where().like("id", id).findList();
-        map.put("data1", pc_1);
+//        map.put("data1", pc_1);
         for (picData pp : pc_1) {
             String source = String.valueOf(pp.getSource_id());
             List<dataComment> dataComments = dataComment.find.where().like("comment_header", source).orderBy("id").findList();
@@ -153,16 +153,13 @@ public class New_Controller extends Controller {
         }
 
         dataComment dataComment = new dataComment();
+        dataComment.setComment_person("a.jpg");
         dataComment.setComment_detail(value);
         dataComment.setComment_header(source);
         dataComment.insert();//插入数据库
-
-        List<dataComment> dataComments = dataComment.find.where().like("comment_header", source).orderBy("id desc").findList();
-        int length = dataComments.size();
-
         Map<String, Object> map = new HashMap<>();
-        map.put("data", id);
-        map.put("length", length);
+        List<dataComment> dataComments = dataComment.find.where().like("comment_header", source).setFirstRow(Integer.parseInt(String.valueOf(0))).setMaxRows(Integer.parseInt(String.valueOf(1))).orderBy("id desc").findList();
+        map.put("pic_comment1", dataComments);
 
         try {
             return ok(Json.mapper().writeValueAsString(map));

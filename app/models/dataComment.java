@@ -21,11 +21,12 @@ public class dataComment extends Model {
     private Date comment_date;
     private String comment_header;
     private String other;
+    private Long floor;
 
     public static Finder<Long,dataComment> find=new Finder<>(dataComment.class);
 
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
@@ -77,5 +78,14 @@ public class dataComment extends Model {
 
     public void setOther(String other) {
         this.other = other;
+    }
+
+    @Column(name="floor")
+    public Long getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Long floor) {
+        this.floor = floor;
     }
 }
